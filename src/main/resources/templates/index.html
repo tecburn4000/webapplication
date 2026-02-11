@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <title>Startseite</title>
+</head>
+<body>
+
+<div th:replace="fragments/navbar :: navbar(#{label.form.index.h1})"></div>
+
+<hr>
+
+<h1>Willkommen!</h1>
+
+<p sec:authorize="isAuthenticated()">
+  Eingeloggt als: <strong sec:authentication="name"></strong>
+</p>
+
+<p sec:authorize="hasRole('ROLE_ADMIN')">
+  Du bist Admin 👑
+</p>
+
+</body>
+</html>

@@ -1,0 +1,8 @@
+.red-button {
+    padding: 8px 14px;
+    background: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}

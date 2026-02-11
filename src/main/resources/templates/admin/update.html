@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <title th:text="#{label.form.profile.title}">Title</title>
+  <link rel="stylesheet" href="/css/base_style.css">
+</head>
+<body>
+
+<div th:replace="fragments/navbar :: navbar(#{label.form.profile.h1})"></div>
+
+  <h1 th:text="#{label.form.profile.h1}">Register</h1>
+
+  <div th:replace="fragments/profile-form :: profileForm(
+          ${user},
+          ${editMode},
+          @{/admin/update/{id}(id=${user.id})}
+  )">
+  </div>
+</body>
+</html>

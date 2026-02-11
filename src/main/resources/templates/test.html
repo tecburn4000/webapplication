@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Index</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<nav>
+  <a th:href="@{/}">Home</a>
+  <span th:if="${#authorization.expression('isAuthenticated()')}">
+            <a th:href="@{/profile}">Profile</a>
+            <a th:href="@{/logout}">Logout</a>
+        </span>
+  <span th:if="${#authorization.expression('!isAuthenticated()')}">
+            <a th:href="@{/login}">Login</a>
+        </span>
+</nav>
+
+<h1>Welcome to the Index Page</h1>
+<p th:if="${#authorization.expression('isAuthenticated()')}">
+  Logged in as <b th:text="${#authentication.name}">User</b>
+</p>
+</body>
+</html>

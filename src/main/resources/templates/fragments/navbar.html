@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<nav th:fragment="navbar(title)">
+    <h3 th:text="${title}">App</h3>
+
+    <a th:href="@{/}">Home</a>
+
+    <!-- Nur für eingeloggte User -->
+    <span sec:authorize="isAuthenticated()">
+        <a th:href="@{/users/profile}">Profil</a>
+    </span>
+
+    <!-- Nur für ADMIN -->
+    <span sec:authorize="hasRole('ROLE_ADMIN')">
+        <a th:href="@{/admin}">Admin</a>
+    </span>
+
+    <!-- Login / Logout -->
+    <span sec:authorize="isAnonymous()">
+        <a th:href="@{/login}">Login</a>
+    </span>
+
+    <span sec:authorize="isAuthenticated()">
+        <form th:action="@{/logout}" method="post" style="display:inline">
+            <button type="submit">Logout</button>
+        </form>
+    </span>
+</nav>
+</body>
+</html>

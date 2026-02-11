@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <title th:text="#{label.form.profile.title}">Title</title>
+  <link rel="stylesheet" href="/css/base_style.css">
+</head>
+<body>
+
+<div th:replace="fragments/navbar :: navbar(#{label.form.profile.h1})"></div>
+
+  <h1 th:text="#{label.form.profile.h1}">Register</h1>
+
+  <div th:replace="fragments/profile-form :: profileForm(
+          ${user},
+          ${editMode},
+          @{/users/profile}
+  )">
+
+  </div>
+
+<!--<a th:href="@{/index}" th:text="#{label.form.profile.backLink}">Back</a>-->
+
+</body>
+</html>
+<!--  <form th:action="@{/users/profile}" th:object="${user}" th:attr="method=${editMode} ? 'post' : 'get'">-->
+<!--    <div class="form-group">-->
+<!--      <label for="first" th:text="#{label.form.profile.firstName}">first</label>-->
+<!--      <input type="text" id="first" th:field="*{firstname}" th:readonly="${!editMode}"/>-->
+<!--    </div>-->
+<!--    <div class="form-group">-->
+<!--      <label for="last" th:text="#{label.form.profile.lastName}">last</label>-->
+<!--      <input type="text" id="last" th:field="*{lastname}" th:readonly="${!editMode}"/>-->
+<!--    </div>-->
+<!--    <div class="form-group">-->
+<!--      <label for="username" th:text="#{label.form.profile.userName}">last</label>-->
+<!--      <input type="text" id="username" th:field="*{username}" th:readonly="${!editMode}"/>-->
+<!--    </div>-->
+<!--    <div class="form-group">-->
+<!--      <label for="email" th:text="#{label.form.profile.email}">email</label>-->
+<!--      <input id="email" type="email" th:field="*{email}" th:readonly="${!editMode}"/>-->
+<!--    </div>-->
+<!--    <div class="form-group" th:if="${!editMode}" sec:authorize="isAuthenticated()">-->
+<!--      <input type="hidden" name="edit" value="true"/>-->
+<!--      <input type="submit" th:value="#{label.form.profile.edit}" />-->
+<!--    </div>-->
+<!--    <div class="form-group" th:if="${editMode}">-->
+<!--      <input type="submit" th:value="#{label.form.profile.submit}" />-->
+<!--    </div>-->
+<!--    <div class="form-group">-->
+<!--      <a href="/index" th:text="#{label.form.profile.backLink}">back</a>-->
+<!--    </div>-->
+<!--  </form>-->
+<!--</body>-->
+<!--</html>-->

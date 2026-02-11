@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+
+  <div th:fragment="userTable(users, editLink, deleteLink)" class="container">
+    <h1>Employee Directory</h1>
+    <table>
+      <thead>
+      <tr>
+        <th th:text="#{label.form.list.table.id}">id</th>
+        <th th:text="#{label.form.list.table.firstname}">Vorname</th>
+        <th th:text="#{label.form.list.table.lastname}">Nachname</th>
+        <th th:text="#{label.form.list.table.username}">Username</th>
+        <th th:text="#{label.form.list.table.email}">Email</th>
+        <th th:text="#{label.form.list.table.action}">Email</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="user : ${users}">
+        <td th:text="${user.id}">ID</td>
+        <td th:text="${user.firstname}">Vorname</td>
+        <td th:text="${user.lastname}">Nachname</td>
+        <td th:text="${user.username}">Username</td>
+        <td th:text="${user.email}">Email</td>
+        <!-- Delete button only visible for ADMIN -->
+        <td sec:authorize="hasRole('ADMIN')">
+<!--          <a th:href="@{/users/update/{id}(id=${user.id})}" th:text="#{label.form.list.link.edit}">Edit</a>-->
+<!--          <a th:href="@{/users/delete/{id}(id=${user.id})}"th:text="#{label.form.list.link.delete}">Delete</a>-->
+          <a th:href="@{${editLink}(id=${user.id})}"
+             th:text="#{label.form.list.link.edit}">
+            Edit
+          </a>
+
+          <a th:href="@{${deleteLink}(id=${user.id})}"
+             th:text="#{label.form.list.link.delete}">
+            Delete
+          </a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

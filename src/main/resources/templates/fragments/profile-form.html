@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+
+<div th:fragment="profileForm(user, editMode, action)">
+  <form th:action="${action}" th:object="${user}" method="post">
+    <div class="form-group">
+      <label th:text="#{label.form.profile.firstName}">First</label>
+      <input type="text" th:field="*{firstname}" th:readonly="${!editMode}"/>
+    </div>
+
+    <div class="form-group">
+      <label th:text="#{label.form.profile.lastName}">Last</label>
+      <input type="text" th:field="*{lastname}" th:readonly="${!editMode}"/>
+    </div>
+
+    <div class="form-group">
+      <label th:text="#{label.form.profile.userName}">Username</label>
+      <input type="text" th:field="*{username}" th:readonly="${!editMode}"/>
+    </div>
+
+    <div class="form-group">
+      <label th:text="#{label.form.profile.email}">Email</label>
+      <input type="email" th:field="*{email}" th:readonly="${!editMode}"/>
+    </div>
+
+    <div th:if="${!editMode}" sec:authorize="isAuthenticated()">
+      <input type="hidden" name="action" value="edit"/>
+      <input type="submit" th:value="#{label.form.profile.edit}" />
+    </div>
+
+    <div th:if="${editMode}">
+      <input type="hidden" name="action" value="save"/>
+      <input type="submit" th:value="#{label.form.profile.submit}" />
+    </div>
+  </form>
+</div>
+
+</body>
+</html>

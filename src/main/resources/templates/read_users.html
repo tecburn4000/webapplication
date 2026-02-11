@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample Table Page</title>
+    <link rel="stylesheet" href="/css/table_style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Employee Directory</h1>
+        <table>
+            <thead>
+            <tr>
+                <th th:text="#{label.form.read.table.id}">id</th>
+                <th th:text="#{label.form.read.table.firstname}">Vorname</th>
+                <th th:text="#{label.form.read.table.lastname}">Nachname</th>
+                <th th:text="#{label.form.read.table.username}">Username</th>
+                <th th:text="#{label.form.read.table.email}">Email</th>
+                <th th:text="#{label.form.read.table.action}">Email</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.id}">ID</td>
+                <td th:text="${user.firstName}">Vorname</td>
+                <td th:text="${user.lastName}">Nachname</td>
+                <td th:text="${user.username}">Username</td>
+                <td th:text="${user.email}">Email</td>
+                <!-- Delete button only visible for ADMIN -->
+                <td sec:authorize="hasRole('ADMIN')">
+                    <form th:action="@{/read/delete/{id}(id=${user.id})}" method="post" th:onsubmit="return confirm('Are you sure?')">
+                        <button type="submit">Delete</button>
+                    </form>
+                    <a th:href="@{/users/edit/{id}(id=${user.id})}">Edit</a>
+                    <a th:href="@{/users/delete/{id}(id=${user.id})}">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="form-group">
+            <p>Back!<a href="/index">Back!</a></p>
+        </div>
+    </div>
+</body>
+</html>
