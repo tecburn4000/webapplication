@@ -6,6 +6,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
-@PreAuthorize("hasAuthority('ROLE_USER') or securityPropertiesPermitsAll")
+@PreAuthorize("hasAuthority('ROLE_USER') or @securityProperties.permitsAll")
 public @interface PermissionUser {
 }
