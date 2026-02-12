@@ -17,10 +17,10 @@
         <a th:href="@{/admin}">Admin</a>
     </span>
 
-    <!-- Login / Logout -->
-    <span sec:authorize="isAnonymous()">
-        <a th:href="@{/login}">Login</a>
-    </span>
+<!--    &lt;!&ndash; Login / Logout &ndash;&gt;-->
+<!--    <span sec:authorize="isAnonymous()">-->
+<!--        <a th:href="@{/login}">Login</a>-->
+<!--    </span>-->
 
     <span sec:authorize="isAuthenticated()">
         <form th:action="@{/logout}" method="post" style="display:inline">
