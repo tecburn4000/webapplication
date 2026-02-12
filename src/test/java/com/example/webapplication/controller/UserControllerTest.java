@@ -1,47 +1,106 @@
 package com.example.webapplication.controller;
 
+import com.example.webapplication.WebApplication;
+import com.example.webapplication.controller.viewnames.UserViews;
+import com.example.webapplication.dto.UserUpdateDto;
+import com.example.webapplication.dto.mapper.UserMapper;
 import com.example.webapplication.entities.User;
+import com.example.webapplication.service.UserProfileFacade;
 import com.example.webapplication.service.UserService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
+import org.springframework.ui.Model;
 
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
-@SpringBootTest
+@SpringBootTest(classes = WebApplication.class)
 class UserControllerTest extends BaseControllerIntegrationTest {
 
-    @DisplayName("Read Users")
+    @Autowired
+    private UserProfileFacade userProfileFacade;
+
+    @MockitoSpyBean
+    private UserMapper spyUserMapper;
+
+    @MockitoBean
+    private UserService mockUserService;
+
+    @DisplayName("Show user profile")
     @Nested
-    class ReadUsers{
-
-        /**
-         * Test with User
-         */
+    class ShowUserProfile {
         @Test
-        @WithUserDetails("user")
-        void readUsers() throws Exception {
+        @WithMockUser(username = "user", roles = {"USER"})
+        void testShowProfileFormEditFalse() throws Exception {
+            // given
+            User userEntity = User.builder().username("user").build();
+            UserUpdateDto userDto = spyUserMapper.toUserUpdateDTO(userEntity);
 
-            mockMvc.perform(get("/users"))
+            // prepare mocks
+            when(mockUserService.findByUserName("user")).thenReturn(userEntity);
+            when(spyUserMapper.toUserUpdateDTO(userEntity)).thenReturn(userDto);
+
+            mockMvc.perform(get("/users/profile"))
                     .andExpect(status().isOk())
-                    .andExpect(view().name("users/list"));
+                    .andExpect(view().name(UserViews.USERS_PROFILE))
+                    .andExpect(model().attributeExists("user"))
+                    .andExpect(model().attribute("editMode", false));
         }
 
         @Test
-        void readUsersNotAuth() throws Exception {
-            mockMvc.perform(get("/users"))
-                    .andExpect(status().is3xxRedirection());
+        @WithMockUser(username = "user", roles = {"USER"})
+        void testShowProfileFormEditTrue() throws Exception {
+            // given
+            User userEntity = User.builder().username("user").build();
+            UserUpdateDto userDto = spyUserMapper.toUserUpdateDTO(userEntity);
+
+            // prepare mocks
+            when(mockUserService.findByUserName("user")).thenReturn(userEntity);
+            when(spyUserMapper.toUserUpdateDTO(userEntity)).thenReturn(userDto);
+
+            // edit=true
+            mockMvc.perform(get("/users/profile").param("edit", "true"))
+                    .andExpect(status().isOk())
+                    .andExpect(view().name(UserViews.USERS_PROFILE))
+                    .andExpect(model().attributeExists("user"))
+                    .andExpect(model().attribute("editMode", true));
+        }
+    }
+    @DisplayName("Update user profile")
+    @Nested
+    class UpdateUserProfile {
+        @Test
+        @WithMockUser(username = "user", roles = {"USER"})
+        void testUpdateUserAccountEditAction() throws Exception {
+            mockMvc.perform(post("/users/profile")
+                            .param("action", "edit")
+                            .flashAttr("editMode", "true")
+                            .flashAttr("user", new UserUpdateDto()))
+                    .andExpect(status().is3xxRedirection())
+                    .andExpect(redirectedUrl("/users/profile?edit=true"));
         }
 
+        @Test
+        @WithMockUser(username = "user", roles = {"USER"})
+        void testUpdateUserAccountSaveAction() throws Exception {
+            UserUpdateDto userDto = UserUpdateDto.builder().username("user").build();
+
+            mockMvc.perform(post("/users/profile")
+                            .param("action", "save")
+                            .flashAttr("user", userDto))
+                    .andExpect(status().isOk())
+                    .andExpect(view().name(UserViews.USERS_PROFILE));
+        }
     }
 }
