@@ -1,5 +1,6 @@
 package com.example.webapplication.controller;
 
+import com.example.webapplication.WebApplication;
 import com.example.webapplication.entities.User;
 import com.example.webapplication.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.test.context.support.WithUserDetails;
 
 import java.util.List;
@@ -17,7 +19,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-@SpringBootTest
+@SpringBootTest(classes = WebApplication.class)
 class AdminUserControllerTest extends BaseControllerIntegrationTest {
 
     @Autowired
