@@ -1,14 +1,12 @@
 package com.example.webapplication.controller;
 
-import com.example.webapplication.config.security.properties.SecurityProperties;
 import com.example.webapplication.controller.viewnames.UserViews;
 import com.example.webapplication.dto.UpdatePasswordDto;
 import com.example.webapplication.dto.UserUpdateDto;
 import com.example.webapplication.dto.mapper.UserMapper;
 import com.example.webapplication.entities.User;
 import com.example.webapplication.security.permissions.PermissionAllUsers;
-import com.example.webapplication.security.permissions.PermissionNone;
-import com.example.webapplication.service.CurrentUserProvider;
+import com.example.webapplication.service.UserProfileFacade;
 import com.example.webapplication.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,8 +17,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
 @Slf4j
 @AllArgsConstructor
 @Controller
@@ -29,6 +25,7 @@ public class UserController {
 
     public static final String EDIT_MODE = "editMode";
     private final UserService userService;
+    private final UserProfileFacade userProfileFacade;
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
 
@@ -45,23 +42,30 @@ public class UserController {
     }
 
     @PermissionAllUsers
-    @PostMapping("/profile")
+    @PostMapping(value = "/profile", params = "action=edit")
+    public String showEditProfile() {
+        return "redirect:/users/profile?edit=true";
+    }
+
+    @PermissionAllUsers
+    @PostMapping(value = "/profile", params = "action=save")
     public String updateUserAccount(
             Model model,
             @AuthenticationPrincipal UserDetails userDetails,
             @ModelAttribute("user") UserUpdateDto userUpdateDto,
             @RequestParam String action) {
 
-        if ("edit".equals(action)) {
-            // switch to edit mode
-            return "redirect:/users/profile?edit=true";
+        if (!action.equals("save")) {
+            throw new IllegalArgumentException("Unknown action: " + action);
         }
 
-        if (userDetails != null) { // user can only be null when testing with "no security"
-            userService.updateExistingUser(userUpdateDto);
-        }
-        model.addAttribute(EDIT_MODE, "false");
-        return UserViews.USERS_PROFILE;
+        return userProfileFacade.handleUpdate(
+                model,
+                userDetails,
+                userUpdateDto,
+                action,
+                UserViews.USERS_PROFILE
+        );
     }
 
     public void updatePassword(UpdatePasswordDto updatePasswordDto, String username) {

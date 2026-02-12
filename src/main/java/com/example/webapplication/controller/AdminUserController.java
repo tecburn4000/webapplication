@@ -5,6 +5,7 @@ import com.example.webapplication.dto.UpdatePasswordDto;
 import com.example.webapplication.dto.UserUpdateDto;
 import com.example.webapplication.dto.mapper.UserMapper;
 import com.example.webapplication.security.permissions.PermissionAdmin;
+import com.example.webapplication.service.UserProfileFacade;
 import com.example.webapplication.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,14 +24,8 @@ public class AdminUserController {
 
     public static final String EDIT_MODE = "editMode";
     private final UserService userService;
-    private final PasswordEncoder passwordEncoder;
+    private final UserProfileFacade userProfileFacade;
     private final UserMapper userMapper;
-
-//    spring boot thymeleaf sollte ich html seiten von mehreren controllern aufrufen oder eigene seiten generieren
-//
-//    navbar als fragment
-//    user tabelle als fragment in mehreren seiten einbinden
-//    footer als fragment
 
     @PermissionAdmin
     @GetMapping
@@ -60,7 +55,13 @@ public class AdminUserController {
     }
 
     @PermissionAdmin
-    @PostMapping("/update/{id}")
+    @PostMapping(value = "/update/{id}", params = "action=edit")
+    public String showEditProfile(@PathVariable Long id) {
+        return "redirect:/admin/update/" + id + "?edit=true";
+    }
+
+    @PermissionAdmin
+    @PostMapping(value = "/update/{id}", params = "action=save")
     public String updateUserAccount(
             Model model,
             @PathVariable Long id,
@@ -68,16 +69,13 @@ public class AdminUserController {
             @ModelAttribute("user") UserUpdateDto userUpdateDto,
             @RequestParam String action) {
 
-        if ("edit".equals(action)) {
-            // switch to edit mode
-            return "redirect:/admin/update/" + id + "?edit=true";
-        }
-
-        if (userDetails != null) { // user can only be null when testing with "no security"
-            userService.updateExistingUser(userUpdateDto);
-        }
-        model.addAttribute(EDIT_MODE, "false");
-        return AdminUserViews.REDIRECT_ADMIN;
+        return userProfileFacade.handleUpdate(
+                model,
+                userDetails,
+                userUpdateDto,
+                action,
+                AdminUserViews.REDIRECT_ADMIN
+        );
     }
 
     private static void validatePasswords(UpdatePasswordDto updatePasswordDto) {
