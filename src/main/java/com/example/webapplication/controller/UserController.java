@@ -43,7 +43,7 @@ public class UserController {
 
     @PermissionAllUsers
     @PostMapping(value = "/profile", params = "action=edit")
-    public String showEditProfile() {
+    public String updateUserAccount() {
         return "redirect:/users/profile?edit=true";
     }
 
@@ -54,10 +54,6 @@ public class UserController {
             @AuthenticationPrincipal UserDetails userDetails,
             @ModelAttribute("user") UserUpdateDto userUpdateDto,
             @RequestParam String action) {
-
-        if (!action.equals("save")) {
-            throw new IllegalArgumentException("Unknown action: " + action);
-        }
 
         return userProfileFacade.handleUpdate(
                 model,
