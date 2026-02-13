@@ -11,7 +11,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -32,13 +31,6 @@ public class AdminUserController {
     public String listUsers(Model model){
         model.addAttribute("users", userService.findAllUsers());
         return "admin/list";
-    }
-
-    @PermissionAdmin
-    @PostMapping("/delete/{id}")
-    public String deleteUser(@PathVariable Long id) {
-        userService.deleteById(id);
-        return AdminUserViews.REDIRECT_ADMIN;
     }
 
     @PermissionAdmin
@@ -76,6 +68,13 @@ public class AdminUserController {
                 action,
                 AdminUserViews.REDIRECT_ADMIN
         );
+    }
+
+    @PermissionAdmin
+    @PostMapping("/delete/{id}")
+    public String deleteUser(@PathVariable Long id) {
+        userService.deleteById(id);
+        return AdminUserViews.REDIRECT_ADMIN;
     }
 
     private static void validatePasswords(UpdatePasswordDto updatePasswordDto) {
