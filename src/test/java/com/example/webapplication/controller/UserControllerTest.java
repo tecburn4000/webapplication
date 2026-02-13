@@ -18,8 +18,11 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.springframework.ui.Model;
 
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -36,6 +39,9 @@ class UserControllerTest extends BaseControllerIntegrationTest {
 
     @MockitoBean
     private UserService mockUserService;
+
+    @MockitoBean
+    private UserProfileFacade spyUserProfileFacade;
 
     @DisplayName("Show user profile")
     @Nested
@@ -80,15 +86,21 @@ class UserControllerTest extends BaseControllerIntegrationTest {
     @DisplayName("Update user profile")
     @Nested
     class UpdateUserProfile {
+
         @Test
-        @WithMockUser(username = "user", roles = {"USER"})
-        void testUpdateUserAccountEditAction() throws Exception {
+        @WithMockUser // PermissionAllUsers
+        void testUpdateUserAccountEditActionWithAuth_shouldRedirect() throws Exception {
             mockMvc.perform(post("/users/profile")
-                            .param("action", "edit")
-                            .flashAttr("editMode", "true")
-                            .flashAttr("user", new UserUpdateDto()))
+                            .param("action", "edit"))
                     .andExpect(status().is3xxRedirection())
                     .andExpect(redirectedUrl("/users/profile?edit=true"));
+        }
+
+        @Test
+        void testUpdateUserAccountEditActionWithAuth_shouldRedirect_shouldRedirectToLogin() throws Exception {
+            mockMvc.perform(post("/users/profile")
+                            .param("action", "edit"))
+                    .andExpect(status().is3xxRedirection());
         }
 
         @Test
@@ -98,9 +110,42 @@ class UserControllerTest extends BaseControllerIntegrationTest {
 
             mockMvc.perform(post("/users/profile")
                             .param("action", "save")
+                            .flashAttr("editMode", "true")
                             .flashAttr("user", userDto))
                     .andExpect(status().isOk())
                     .andExpect(view().name(UserViews.USERS_PROFILE));
         }
+    }
+
+    @Test
+    @WithMockUser(username = "testUser", roles = "USER")
+    void updateUserAccount_shouldDelegateToFacade_andReturnView() throws Exception {
+
+        // given
+        when(userProfileFacade.handleUpdate(
+                any(Model.class),
+                any(UserDetails.class),
+                any(UserUpdateDto.class),
+                eq("save"),
+                eq(UserViews.USERS_PROFILE)
+        )).thenReturn((UserViews.USERS_PROFILE));
+
+        // when + then
+        mockMvc.perform(post("/users/profile")
+                        .param("action", "save")
+                        .flashAttr("editMode", "true")
+                        .flashAttr("user", UserUpdateDto.builder().username("user").build())
+                        .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(view().name((UserViews.USERS_PROFILE)));
+
+        // verify delegation
+        verify(userProfileFacade).handleUpdate(
+                any(Model.class),
+                any(UserDetails.class),
+                any(UserUpdateDto.class),
+                eq("save"),
+                eq(UserViews.USERS_PROFILE)
+        );
     }
 }
