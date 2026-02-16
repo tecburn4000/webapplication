@@ -133,7 +133,7 @@ class UserControllerTest extends BaseControllerIntegrationTest {
         // when + then
         mockMvc.perform(post("/users/profile")
                         .param("action", "save")
-                        .flashAttr("editMode", "true")
+                        .flashAttr("editMode", "false") // target view ("users/profile" ==> fragments/profile-form.html) needs "editMode"
                         .flashAttr("user", UserUpdateDto.builder().username("user").build())
                         .with(csrf()))
                 .andExpect(status().isOk())
