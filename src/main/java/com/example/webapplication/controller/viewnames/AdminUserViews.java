@@ -5,6 +5,7 @@ public final class AdminUserViews {
     private AdminUserViews() {/* no instances */ }
 
     public static final String REDIRECT_ADMIN = "redirect:/admin";
+    public static final String ADMIN_UPDATE = "admin/update";
     public static final String ADMIN = "/admin";
 
 }

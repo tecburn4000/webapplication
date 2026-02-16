@@ -104,7 +104,7 @@ class AdminUserControllerTest extends BaseControllerIntegrationTest {
             mockMvc.perform(get("/admin/update/{id}", id)
                             .param("edit", "true"))
                     .andExpect(status().isOk())
-                    .andExpect(view().name("admin/update"))
+                    .andExpect(view().name(AdminUserViews.ADMIN_UPDATE))
                     .andExpect(model().attributeExists("user"))
                     .andExpect(model().attribute("editMode", true));
 
@@ -134,7 +134,7 @@ class AdminUserControllerTest extends BaseControllerIntegrationTest {
             mockMvc.perform(post("/admin/update/{id}", id)
                             .param("action", "edit"))
                     .andExpect(status().is3xxRedirection())
-                    .andExpect(redirectedUrl("/admin/update/" + id + "?edit=true"));
+                    .andExpect(redirectedUrl(AdminUserViews.ADMIN_UPDATE + id + "?edit=true"));
         }
 
         // POST /admin/update/{id}?action=save
@@ -151,13 +151,13 @@ class AdminUserControllerTest extends BaseControllerIntegrationTest {
                     any(UserUpdateDto.class),
                     eq("save"),
                     eq(AdminUserViews.REDIRECT_ADMIN)
-            )).thenReturn("redirect:/admin");
+            )).thenReturn(AdminUserViews.REDIRECT_ADMIN);
 
             mockMvc.perform(post("/admin/update/{id}", id)
                             .param("action", "save")
                             .flashAttr("user", UserUpdateDto.builder().username("user").build()))
                     .andExpect(status().is3xxRedirection())
-                    .andExpect(redirectedUrl("/admin"));
+                    .andExpect(redirectedUrl(AdminUserViews.ADMIN));
 
             verify(userProfileFacade).handleUpdate(
                     any(Model.class),

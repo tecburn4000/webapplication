@@ -42,8 +42,7 @@ public class AdminUserController {
         UserUpdateDto userUpdateDto = userMapper.toUserUpdateDTO(userService.findById(id));
         model.addAttribute("user", userUpdateDto);
         model.addAttribute(EDIT_MODE, edit);
-//        return AdminUserViews.ADMIN;
-        return "admin/update";
+        return AdminUserViews.ADMIN_UPDATE;
     }
 
     @PermissionAdmin
