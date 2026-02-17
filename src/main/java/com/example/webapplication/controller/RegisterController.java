@@ -52,4 +52,8 @@ public class RegisterController {
 
         return "login";
     }
+
+//    TODO
+//    - register tests
+
 }
