@@ -31,14 +31,13 @@ public class SecurityConfig {
 			// debug: all allowed
 			http.
 					authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
-					.csrf(csrf -> csrf.disable());
+					.csrf(AbstractHttpConfigurer::disable);
 		} else {
 			http
 					.csrf(AbstractHttpConfigurer::disable) // Do not use in production
 					.formLogin(httpForm ->{
 						httpForm.loginPage("/req/login").permitAll();
 						httpForm.defaultSuccessUrl("/index");
-						//httpForm.defaultSuccessUrl("/test");
 					})
 
 					.authorizeHttpRequests(register ->{
