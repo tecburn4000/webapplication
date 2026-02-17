@@ -42,13 +42,13 @@ public class UserController {
     }
 
     @PermissionAllUsers
-    @PostMapping(value = "/profile", params = "action=edit")
+    @PutMapping(value = "/profile", params = "action=edit")
     public String updateUserAccount() {
         return "redirect:/users/profile?edit=true";
     }
 
     @PermissionAllUsers
-    @PostMapping(value = "/profile", params = "action=save")
+    @PutMapping(value = "/profile", params = "action=save")
     public String updateUserAccount(
             Model model,
             @AuthenticationPrincipal UserDetails userDetails,

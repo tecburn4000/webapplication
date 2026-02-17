@@ -46,13 +46,13 @@ public class AdminUserController {
     }
 
     @PermissionAdmin
-    @PostMapping(value = "/update/{id}", params = "action=edit")
+    @PutMapping(value = "/update/{id}", params = "action=edit")
     public String showEditProfile(@PathVariable Long id) {
         return "redirect:/admin/update/" + id + "?edit=true";
     }
 
     @PermissionAdmin
-    @PostMapping(value = "/update/{id}", params = "action=save")
+    @PutMapping(value = "/update/{id}", params = "action=save")
     public String updateUserAccount(
             Model model,
             @PathVariable Long id,
@@ -70,7 +70,7 @@ public class AdminUserController {
     }
 
     @PermissionAdmin
-    @PostMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public String deleteUser(@PathVariable Long id) {
         userService.deleteById(id);
         return AdminUserViews.REDIRECT_ADMIN;

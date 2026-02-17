@@ -30,8 +30,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest(classes = WebApplication.class)
@@ -131,10 +130,10 @@ class AdminUserControllerTest extends BaseControllerIntegrationTest {
         @WithMockUser(roles = "ADMIN")
         void showEditProfile_shouldRedirectToEditMode() throws Exception {
             Long id = 1L;
-            mockMvc.perform(post("/admin/update/{id}", id)
+            mockMvc.perform(put("/admin/update/{id}", id)
                             .param("action", "edit"))
                     .andExpect(status().is3xxRedirection())
-                    .andExpect(redirectedUrl(AdminUserViews.ADMIN_UPDATE + id + "?edit=true"));
+                    .andExpect(redirectedUrl("/admin/update/" + id + "?edit=true"));
         }
 
         // POST /admin/update/{id}?action=save
@@ -153,7 +152,7 @@ class AdminUserControllerTest extends BaseControllerIntegrationTest {
                     eq(AdminUserViews.REDIRECT_ADMIN)
             )).thenReturn(AdminUserViews.REDIRECT_ADMIN);
 
-            mockMvc.perform(post("/admin/update/{id}", id)
+            mockMvc.perform(put("/admin/update/{id}", id)
                             .param("action", "save")
                             .flashAttr("user", UserUpdateDto.builder().username("user").build()))
                     .andExpect(status().is3xxRedirection())

@@ -23,8 +23,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -90,15 +89,23 @@ class UserControllerTest extends BaseControllerIntegrationTest {
         @Test
         @WithMockUser // PermissionAllUsers
         void testUpdateUserAccountEditActionWithAuth_shouldRedirect() throws Exception {
-            mockMvc.perform(post("/users/profile")
+            mockMvc.perform(put("/users/profile")
                             .param("action", "edit"))
                     .andExpect(status().is3xxRedirection())
                     .andExpect(redirectedUrl("/users/profile?edit=true"));
         }
 
         @Test
-        void testUpdateUserAccountEditActionWithAuth_shouldRedirect_shouldRedirectToLogin() throws Exception {
+        @WithMockUser // PermissionAllUsers
+        void testPostUpdateUserAccountEditActionWithAuth_sholdReturnClientError() throws Exception {
             mockMvc.perform(post("/users/profile")
+                            .param("action", "edit"))
+                    .andExpect(status().is4xxClientError()); // no post request implemented
+        }
+
+        @Test
+        void testUpdateUserAccountEditActionWithAuth_shouldRedirect_shouldRedirectToLogin() throws Exception {
+            mockMvc.perform(put("/users/profile")
                             .param("action", "edit"))
                     .andExpect(status().is3xxRedirection());
         }
@@ -108,7 +115,7 @@ class UserControllerTest extends BaseControllerIntegrationTest {
         void testUpdateUserAccountSaveAction() throws Exception {
             UserUpdateDto userDto = UserUpdateDto.builder().username("user").build();
 
-            mockMvc.perform(post("/users/profile")
+            mockMvc.perform(put("/users/profile")
                             .param("action", "save")
                             .flashAttr("editMode", "true")
                             .flashAttr("user", userDto))
@@ -131,7 +138,7 @@ class UserControllerTest extends BaseControllerIntegrationTest {
         )).thenReturn((UserViews.USERS_PROFILE));
 
         // when + then
-        mockMvc.perform(post("/users/profile")
+        mockMvc.perform(put("/users/profile")
                         .param("action", "save")
                         .flashAttr("editMode", "false") // target view ("users/profile" ==> fragments/profile-form.html) needs "editMode"
                         .flashAttr("user", UserUpdateDto.builder().username("user").build())

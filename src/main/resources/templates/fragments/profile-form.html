@@ -27,11 +27,13 @@
 
     <div th:if="${!editMode}" sec:authorize="isAuthenticated()">
       <input type="hidden" name="action" value="edit"/>
+      <input type="hidden" name="_method" value="put" />
       <input type="submit" th:value="#{label.form.profile.edit}" />
     </div>
 
     <div th:if="${editMode}">
       <input type="hidden" name="action" value="save"/>
+      <input type="hidden" name="_method" value="put" />
       <input type="submit" th:value="#{label.form.profile.submit}" />
     </div>
   </form>

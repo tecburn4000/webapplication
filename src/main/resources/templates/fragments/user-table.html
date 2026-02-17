@@ -23,19 +23,21 @@
         <td th:text="${user.lastname}">Nachname</td>
         <td th:text="${user.username}">Username</td>
         <td th:text="${user.email}">Email</td>
-        <!-- Delete button only visible for ADMIN -->
+        <!-- Edit and delete only visible for ADMIN -->
         <td sec:authorize="hasRole('ADMIN')">
-<!--          <a th:href="@{/users/update/{id}(id=${user.id})}" th:text="#{label.form.list.link.edit}">Edit</a>-->
-<!--          <a th:href="@{/users/delete/{id}(id=${user.id})}"th:text="#{label.form.list.link.delete}">Delete</a>-->
-          <a th:href="@{${editLink}(id=${user.id})}"
-             th:text="#{label.form.list.link.edit}">
-            Edit
-          </a>
+            <a th:href="@{${editLink}(id=${user.id})}" th:text="#{label.form.list.link.edit}">Edit</a>
+            <a th:href="@{${deleteLink}(id=${user.id})}" th:text="#{label.form.list.link.delete}">Delete</a>
+            <form th:action="@{${deleteLink}(id=${user.id})}"
+                  method="post"
+                  style="display:inline;"
+                  onsubmit="return confirm('User wirklich löschen?');">
 
-          <a th:href="@{${deleteLink}(id=${user.id})}"
-             th:text="#{label.form.list.link.delete}">
-            Delete
-          </a>
+                <input type="hidden" name="_method" value="delete"/>
+                <button type="submit">Delete</button>
+            </form>
+            <form th:action="@{${editLink}(id=${user.id})}" method="get">
+                <button type="submit">Edit</button>
+            </form>
         </td>
       </tr>
       </tbody>
