@@ -8,7 +8,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-@Mapper (componentModel = "spring", builder = @Builder(disableBuilder = true))
+@Mapper (componentModel = "spring")
 public interface UserMapper {
 
     /**
@@ -47,6 +47,7 @@ public interface UserMapper {
      */
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "authorities", ignore = true)
+    @Mapping(target = "authority", ignore = true)
     @Mapping(target = "accountNonExpired", ignore = true)
     @Mapping(target = "accountNonLocked", ignore = true)
     @Mapping(target = "credentialsNonExpired", ignore = true)
