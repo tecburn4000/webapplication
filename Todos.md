@@ -7,9 +7,12 @@
   - ~~-Update durch User-~~
   - update password
 - AdminUserController
-  - Update durch Admin
+  - ~~-Update durch Admin-~~
+  - delete
   - update password
   - update Role
+- Show Password Button
+- RegisterController Tests
 - Role muss durch Admin gesetzt werden
   - vorher keine Zugriff auf Data
   - kann sein eigenes Profil bearbeiten 
@@ -41,6 +44,7 @@
     - direkt bei Registrierung oder beim ersten Login?
 - CSS aufräumen 
   - Variablen definieren
+- CSRF aktivieren
 
 ---
 ## Fragen an Wladi
@@ -65,8 +69,10 @@
 
 ---
 ## Unit Tests
-- Test UserController 
-  - update
+- UserController 
+- AdminUserController
+- RegistrationController Tests
+- PasswordMatches Tests reparieren!
 - Switch to JUnit6 ==> Apply OpenRewrite (https://docs.openrewrite.org/recipes/java/testing/junit5/junit5bestpractices)
 - Test Repositories
 - Test Funktionalität
