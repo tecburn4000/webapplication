@@ -57,7 +57,7 @@ class UserServiceImplTest {
         userService = new UserServiceImpl(userRepository, authorityRepository, passwordEncoder, userMapper);
     }
 
-    @DisplayName("Should throw an exception when email already exists")
+
     @Test
     void registerNewUser_EmailExists() {
 
@@ -69,7 +69,6 @@ class UserServiceImplTest {
                 () -> userService.registerNewUser(userRegistrationDto));
     }
 
-    @DisplayName("Should throw an exception when username already exists")
     @Test
     void registerNewUser_UsernameExists() {
 
@@ -81,7 +80,6 @@ class UserServiceImplTest {
                 () -> userService.registerNewUser(userRegistrationDto));
     }
 
-    @DisplayName("Should throw an exception when authority is not USER")
     @Test
     void registerNewUser_AuthorityIsNotUser() {
 
@@ -98,7 +96,6 @@ class UserServiceImplTest {
                 () -> userService.registerNewUser(userRegistrationDto));
     }
 
-    @DisplayName("Should throw an exception when authority is not USER")
     @Test
     void registerNewUserTest() {
 
@@ -110,7 +107,10 @@ class UserServiceImplTest {
         when(userRepository.findByUsername(anyString())).thenReturn(Optional.empty());
         // authority ok
         when(authorityRepository.findByRole(anyString())).thenReturn(Optional.of(authority));
-
+        // save returns a mock user
+        when(userRepository.save(any(User.class))).thenReturn(user);
+        // user mapper returns mock user
+        when(userMapper.toUserEntity(any(UserRegistrationDto.class))).thenReturn(user);
         // Test
         userService.registerNewUser(userRegistrationDto);
 
