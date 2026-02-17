@@ -95,6 +95,7 @@ class UserControllerTest extends BaseControllerIntegrationTest {
                     .andExpect(redirectedUrl("/users/profile?edit=true"));
         }
 
+        @DisplayName("POST is not allowed.")
         @Test
         @WithMockUser // PermissionAllUsers
         void testPostUpdateUserAccountEditActionWithAuth_sholdReturnClientError() throws Exception {
