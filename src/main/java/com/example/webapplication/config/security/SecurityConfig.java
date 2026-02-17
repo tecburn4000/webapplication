@@ -1,7 +1,6 @@
 package com.example.webapplication.config.security;
 
 import com.example.webapplication.config.security.properties.SecurityProperties;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,13 +35,13 @@ public class SecurityConfig {
 			http
 					.csrf(AbstractHttpConfigurer::disable) // Do not use in production
 					.formLogin(httpForm ->{
-						httpForm.loginPage("/req/login").permitAll();
+						httpForm.loginPage("/login").permitAll();
 						httpForm.defaultSuccessUrl("/index");
 					})
 
 					.authorizeHttpRequests(register ->{
 						register.requestMatchers("/css/**","/js/**").permitAll(); // Allow access to static resources
-						register.requestMatchers("/req/login").permitAll(); // Allow access to login page
+						register.requestMatchers("/login").permitAll(); // Allow access to login page
 						register.requestMatchers("/register").permitAll(); // Allow access to registration page
 						register.requestMatchers("/actuator/**").permitAll(); // oder nur /actuator/mappings
 						register.requestMatchers("/h2-console/**").permitAll(); // Allow access to H2 Console - do not use in production!
@@ -50,7 +49,7 @@ public class SecurityConfig {
 					})
 					.logout(logout -> logout
 							.logoutUrl("/logout")
-							.logoutSuccessUrl("/req/login?logout")
+							.logoutSuccessUrl("/login?logout")
 							.permitAll()
 					)
 					//.httpBasic(Customizer.withDefaults())

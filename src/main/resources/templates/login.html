@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1 th:text="#{label.form.login.h1}">Login</h1>
-    <form action="/req/login" method="post">
+    <form action="/login" method="post">
         <div class="form-group" th:if="${param.error}">
             <label for="error-field" th:text="#{label.form.login.error}">error text</label>
             <input name="error" id="error-field" type="text" th:value="${session['SPRING_SECURITY_LAST_EXCEPTION'].message}" readonly>

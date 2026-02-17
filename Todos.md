@@ -36,7 +36,7 @@
   - ~~-create-~~ done
 - Change username to email
 - change User Spring security User
-- change /req/login to /login
+- ~~-change /req/login to /login~~-
 - ~~-/h2-console geht nicht-~~
 - 2FA
 - Ablauf
