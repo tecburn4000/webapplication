@@ -15,7 +15,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @Service
@@ -57,16 +59,38 @@ public class UserServiceImpl implements UserService {
     public UserUpdateDto updateExistingUser(UserUpdateDto userUpdateDto) throws UserAlreadyExistException {
 
         User userByUsername = userRepository.findByUsername(userUpdateDto.getUsername()).orElseThrow(
-                () -> new UserNotFoundException("There is no user with that username"));
+                () -> new UserNotFoundException("There is no user with username: " + userUpdateDto.getUsername()));
 
         // update user data of existing user
         userMapper.updateUserFromUserUpdateDto(userUpdateDto, userByUsername);
 
-        // TODO: handle Role - change role
-        // roles will not be changed by the user itself!
+        setNewRoleIfChanged(userUpdateDto.getRole(), userByUsername);
 
         User saved = userRepository.save(userByUsername);
         return userMapper.toUserUpdateDTO(saved);
+    }
+
+    private void setNewRoleIfChanged(String newRole, User user) {
+        if (!compareRoles(newRole, user.getAuthorities())){
+            Authority authority = authorityRepository
+                    .findByRole(newRole)
+                    .orElseThrow(() -> new IllegalArgumentException("Role not found"));
+            // set new role
+            Set<Authority> authorities = user.getAuthorities();
+            authorities.clear();
+            authorities.add(authority);
+            user.setAuthorities(authorities);
+        }
+    }
+
+    /**
+     * Compares a single role against the user authorities
+     * @param newRole - the new role to compare
+     * @param authorities - the given authorities to compare against
+     * @return true if roles are equal
+     */
+    private boolean compareRoles(String newRole, Set<Authority> authorities) {
+        return newRole.equals(userMapper.mapAuthoritiesToRole(authorities));
     }
 
     @Override

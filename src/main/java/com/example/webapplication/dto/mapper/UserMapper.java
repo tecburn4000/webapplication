@@ -2,11 +2,15 @@ package com.example.webapplication.dto.mapper;
 
 import com.example.webapplication.dto.UserRegistrationDto;
 import com.example.webapplication.dto.UserUpdateDto;
+import com.example.webapplication.entities.Authority;
 import com.example.webapplication.entities.User;
-import org.mapstruct.Builder;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
+import com.example.webapplication.repositories.security.AuthorityRepository;
+import org.mapstruct.*;
+import org.springframework.security.core.GrantedAuthority;
+
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 
 @Mapper (componentModel = "spring")
 public interface UserMapper {
@@ -16,6 +20,7 @@ public interface UserMapper {
      * @param user - existing user data
      * @return - new {@link UserUpdateDto}
      */
+    @Mapping(source = "authorities", target = "role")
     UserUpdateDto toUserUpdateDTO(User user);
 
     /**
@@ -47,11 +52,26 @@ public interface UserMapper {
      */
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "authorities", ignore = true)
-    @Mapping(target = "authority", ignore = true)
     @Mapping(target = "accountNonExpired", ignore = true)
     @Mapping(target = "accountNonLocked", ignore = true)
     @Mapping(target = "credentialsNonExpired", ignore = true)
     @Mapping(target = "enabled", ignore = true)
     User toUserEntity(UserRegistrationDto userRegistrationDto);
 
+    /**
+     * Maps the first entry of authorities to a role String
+     * @param authorities - a set of authorities
+     * @return role
+     */
+    default String mapAuthoritiesToRole(Set<Authority> authorities) {
+        if (authorities == null || authorities.isEmpty()) {
+            return null;
+        }
+
+        // use first role
+        return authorities.stream()
+                .map(Authority::getRole)
+                .findFirst()
+                .orElse(null);
+    }
 }
