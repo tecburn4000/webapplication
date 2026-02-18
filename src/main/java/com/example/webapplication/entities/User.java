@@ -25,7 +25,6 @@ public class User {
     private String firstname;
     private String lastname;
 
-    @Singular
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "user_authoritiy",
         joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")},
