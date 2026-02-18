@@ -7,29 +7,23 @@ import com.example.webapplication.dto.mapper.UserMapper;
 import com.example.webapplication.entities.User;
 import com.example.webapplication.service.UserProfileFacade;
 import com.example.webapplication.service.UserService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.springframework.ui.Model;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -42,8 +36,8 @@ class AdminUserControllerTest extends BaseControllerIntegrationTest {
     @Autowired
     private UserProfileFacade userProfileFacade;
 
-    @MockitoSpyBean
-    private UserMapper spyUserMapper;
+    @MockitoBean
+    private UserMapper userMapper;
 
     @MockitoBean
     private UserProfileFacade spyUserProfileFacade;
@@ -98,7 +92,7 @@ class AdminUserControllerTest extends BaseControllerIntegrationTest {
             UserUpdateDto dto = new UserUpdateDto();
 
             when(userService.findById(id)).thenReturn(user);
-            when(spyUserMapper.toUserUpdateDTO(user)).thenReturn(dto);
+            when(userMapper.toUserUpdateDTO(user)).thenReturn(dto);
 
             mockMvc.perform(get("/admin/update/{id}", id)
                             .param("edit", "true"))
@@ -108,7 +102,7 @@ class AdminUserControllerTest extends BaseControllerIntegrationTest {
                     .andExpect(model().attribute("editMode", true));
 
             verify(userService).findById(id);
-            verify(spyUserMapper).toUserUpdateDTO(user);
+            verify(userMapper).toUserUpdateDTO(user);
         }
 
         @Test
