@@ -25,6 +25,19 @@
       <input type="email" th:field="*{email}" th:readonly="${!editMode}"/>
     </div>
 
+    <!-- ROLE nur sichtbar für Admins -->
+    <div class="form-group"
+         sec:authorize="hasRole('ADMIN')">
+      <label th:text="#{label.form.profile.role}">Role</label>
+
+      <!-- Beispiel als Dropdown -->
+      <select th:field="*{role}" th:disabled="${!editMode}">
+        <option value="ROLE_NONE">NONE</option>
+        <option value="ROLE_USER">USER</option>
+        <option value="ROLE_ADMIN">ADMIN</option>
+      </select>
+    </div>
+
     <div th:if="${!editMode}" sec:authorize="isAuthenticated()">
       <input type="hidden" name="action" value="edit"/>
       <input type="hidden" name="_method" value="put" />

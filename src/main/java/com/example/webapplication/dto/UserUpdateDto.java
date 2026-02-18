@@ -3,15 +3,12 @@ package com.example.webapplication.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
-@SuperBuilder
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserUpdateDto {
@@ -38,6 +35,10 @@ public class UserUpdateDto {
     @NotNull
     @NotEmpty
     private String email;
+
+    @NotNull
+    @NotEmpty
+    private String role;
 
     //TODO: id?
 }
