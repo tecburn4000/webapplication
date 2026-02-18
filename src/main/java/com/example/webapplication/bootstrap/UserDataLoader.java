@@ -10,6 +10,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Slf4j
 @AllArgsConstructor
 @Component
@@ -30,33 +33,39 @@ public class UserDataLoader implements CommandLineRunner {
             Authority userAuthority = authorityRepository.save(Authority.builder().role("ROLE_USER").build());
             Authority noneAuthority = authorityRepository.save(Authority.builder().role("ROLE_NONE").build());
 
+            Set<Authority> authorities = new HashSet<>();
+            authorities.add(adminAuthority);
             userRepository.save(User.builder()
                     .firstname("Admin")
                     .lastname("Admin")
                     .username("admin")
                     .email("admin@admin.org")
                     .password(passwordEncoder.encode("admin"))
-                    .authority(adminAuthority)
+                    .authorities(authorities)
                     .build()
             );
 
+            authorities.clear();
+            authorities.add(userAuthority);
             userRepository.save(User.builder()
                     .firstname("User")
                     .lastname("User")
                     .username("user")
                     .email("user@user.org")
                     .password(passwordEncoder.encode("password"))
-                    .authority(userAuthority)
+                    .authorities(authorities)
                     .build()
             );
 
+            authorities.clear();
+            authorities.add(noneAuthority);
             userRepository.save(User.builder()
                     .firstname("None")
                     .lastname("None")
                     .username("none")
                     .email("none@none.org")
                     .password(passwordEncoder.encode("none"))
-                    .authority(noneAuthority)
+                    .authorities(authorities)
                     .build()
             );
 
