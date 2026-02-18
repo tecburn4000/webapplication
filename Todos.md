@@ -71,6 +71,7 @@
 ## Unit Tests
 - UserController 
 - AdminUserController
+- Role change tests
 - RegistrationController Tests
 - PasswordMatches Tests reparieren!
 - Switch to JUnit6 ==> Apply OpenRewrite (https://docs.openrewrite.org/recipes/java/testing/junit5/junit5bestpractices)
