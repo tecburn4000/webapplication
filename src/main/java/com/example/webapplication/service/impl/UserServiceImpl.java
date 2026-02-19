@@ -5,17 +5,16 @@ import com.example.webapplication.dto.UserUpdateDto;
 import com.example.webapplication.dto.mapper.UserMapper;
 import com.example.webapplication.entities.Authority;
 import com.example.webapplication.entities.User;
-import com.example.webapplication.service.exception.UserAlreadyExistException;
 import com.example.webapplication.repositories.security.AuthorityRepository;
 import com.example.webapplication.repositories.security.UserRepository;
 import com.example.webapplication.service.UserService;
+import com.example.webapplication.service.exception.UserAlreadyExistException;
 import com.example.webapplication.service.exception.UserNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -46,12 +45,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserRegistrationDto save(UserRegistrationDto userRegistrationDto) throws UserAlreadyExistException {
 
-        // TODO: handle Role - change role
-        Authority userAuthority =
-                authorityRepository.findByRole("ROLE_NONE").orElseThrow(
-                        () -> new RuntimeException("There is no authority with that role"));
 
-        User saved = userRepository.save(userMapper.toUserEntity(userRegistrationDto));
+        User user = userMapper.toUserEntity(userRegistrationDto);
+        setRole("ROLE_NONE", user);
+        User saved = userRepository.save(user);
         return userMapper.toUserRegistrationDTO(saved);
     }
 
@@ -72,15 +69,19 @@ public class UserServiceImpl implements UserService {
 
     private void setNewRoleIfChanged(String newRole, User user) {
         if (!compareRoles(newRole, user.getAuthorities())){
-            Authority authority = authorityRepository
-                    .findByRole(newRole)
-                    .orElseThrow(() -> new IllegalArgumentException("Role not found"));
             // set new role
-            Set<Authority> authorities = user.getAuthorities();
-            authorities.clear();
-            authorities.add(authority);
-            user.setAuthorities(authorities);
+            setRole(newRole, user);
         }
+    }
+
+    private void setRole(String role, User user) {
+        Authority authority =
+                authorityRepository.findByRole(role).orElseThrow(
+                        () -> new RuntimeException("There is no authority with role: " + role));
+        Set<Authority> authorities = user.getAuthorities();
+        authorities.clear();
+        authorities.add(authority);
+        user.setAuthorities(authorities);
     }
 
     /**

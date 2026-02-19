@@ -10,6 +10,20 @@
   - ~~-Update durch Admin-~~
   - delete
   - update password
+```java
+    // TODO: password change validation
+    private static void validatePasswords(UpdatePasswordDto updatePasswordDto) {
+        // check if password entries are valid
+        if (updatePasswordDto.getNewPassword() == null ||
+                updatePasswordDto.getNewPassword().isEmpty() ||
+                updatePasswordDto.getOldPassword() == null ||
+                updatePasswordDto.getOldPassword().isEmpty()) {
+            // TODO: create specific exception
+            throw new RuntimeException("Old Password or New Password is null or empty!");
+        }
+    }
+ 
+```
   - update Role
 - Show Password Button
 - RegisterController Tests
@@ -20,22 +34,22 @@
     - Save button nach edit
     - evtl css highlighting editable / readonly
     rollenzuweisung durch admin
-- defining Authorities ==> fragen an Wladi
-  - ROLE_ADMIN ==> CRUD
-  - ROLE USER ==> CRU?
+- __Change username to email__
+- ~~-defining Authorities ==> fragen an Wladi~~-
+  - ~~-ROLE_ADMIN ==> CRUD-~~
+  - ~~-ROLE USER ==> CRU?-~~
   - ~~-@PreAuthorize funktioniert nicht-~~ 
     - ~~-@EnableMethodSecurity fehlte-~~
-- CRUD
+- ~~-CRUD-~~
   - ~~-read ==> update (für alle) und delete (für admin) buttons-~~
-  - update
-    - change password view
-      - old pwd
-      - new pwd
-      - confirm pwd
+  - ~~-update-~~
+    - ~~-change password view-~~
+      - ~~-old pwd-~~
+      - ~~-new pwd-~~
+      - ~~-confirm pwd-~~
   - ~~-delete-~~
-  - ~~-create-~~ done
-- Change username to email
-- change User Spring security User
+  - ~~-create-~~
+- ~~-change User Spring security User-~~
 - ~~-change /req/login to /login~~-
 - ~~-/h2-console geht nicht-~~
 - 2FA
@@ -79,3 +93,6 @@
 - Test Funktionalität
   - UserService
 - Test HTML Sites?
+
+## Sonar
+- check files for Sonar issues

@@ -75,15 +75,4 @@ public class AdminUserController {
         userService.deleteById(id);
         return AdminUserViews.REDIRECT_ADMIN;
     }
-
-    private static void validatePasswords(UpdatePasswordDto updatePasswordDto) {
-        // check if password entries are valid
-        if (updatePasswordDto.getNewPassword() == null ||
-                updatePasswordDto.getNewPassword().isEmpty() ||
-                updatePasswordDto.getOldPassword() == null ||
-                updatePasswordDto.getOldPassword().isEmpty()) {
-            // TODO: create specific exception
-            throw new RuntimeException("Old Password or New Password is null or empty!");
-        }
-    }
 }

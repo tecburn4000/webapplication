@@ -10,9 +10,6 @@ import java.util.Comparator;
 
 @Slf4j
 @Component
-/**
- * Log all Endpoints
- */
 public class EndpointLogger {
 
     private final RequestMappingHandlerMapping handlerMapping;
@@ -21,20 +18,9 @@ public class EndpointLogger {
         this.handlerMapping = handlerMapping;
     }
 
-//    @EventListener(ApplicationReadyEvent.class)
-//    public void logEndpoints() {
-//        log.debug("Registered Endpoints:");
-//        handlerMapping.getHandlerMethods().forEach(
-//                (mapping, method) ->
-//                        log.debug("\t{} {} -> {}.{}",
-//                                mapping.getMethodsCondition(),
-//                                mapping.getPatternValues(),
-//                                method.getBeanType().getSimpleName(),
-//                                method.getMethod().getName()));
-//    }
-
     @EventListener(ApplicationReadyEvent.class)
     public void logEndpoints() {
+        // Log all Endpoints
         log.debug("Registered Endpoints:");
 
         handlerMapping.getHandlerMethods().entrySet().stream()

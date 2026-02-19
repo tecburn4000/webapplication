@@ -4,12 +4,10 @@ import com.example.webapplication.dto.UserRegistrationDto;
 import com.example.webapplication.dto.UserUpdateDto;
 import com.example.webapplication.entities.Authority;
 import com.example.webapplication.entities.User;
-import com.example.webapplication.repositories.security.AuthorityRepository;
-import org.mapstruct.*;
-import org.springframework.security.core.GrantedAuthority;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
-import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 @Mapper (componentModel = "spring")
