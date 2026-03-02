@@ -10,7 +10,7 @@ description = 'Demo project for Spring Boot'
 
 java {
 	toolchain {
-		languageVersion = JavaLanguageVersion.of(21)
+		languageVersion = JavaLanguageVersion.of(25)
 	}
 }
 
@@ -36,10 +36,15 @@ dependencies {
 	annotationProcessor("org.mapstruct:mapstruct-processor:1.6.3")
 	compileOnly("org.projectlombok:lombok:1.18.42")
 	annotationProcessor("org.projectlombok:lombok:1.18.42")
-
 	// tells mapstruct to wait for lombok
 	implementation("org.projectlombok:lombok-mapstruct-binding:0.2.0")
 	annotationProcessor("org.projectlombok:lombok-mapstruct-binding:0.2.0")
+
+	// Spring Integration FTP
+	implementation 'org.springframework.integration:spring-integration-ftp'
+
+	// Apache Commons Net (FTP Client)
+	implementation 'commons-net:commons-net:3.10.0'
 
 	// show active endpoints
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
@@ -53,6 +58,7 @@ dependencies {
 	runtimeOnly 'com.h2database:h2'
 	testImplementation 'org.springframework.security:spring-security-test'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation("org.apache.ftpserver:ftpserver-core:1.2.1")
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 

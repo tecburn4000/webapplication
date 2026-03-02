@@ -12,15 +12,15 @@
         <a th:href="@{/users/profile}">Profil</a>
     </span>
 
+    <!-- Nur für berechtigte User -->
+    <span sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')">
+        <a th:href="@{/ftp/list}">FTP</a>
+    </span>
+
     <!-- Nur für ADMIN -->
     <span sec:authorize="hasRole('ROLE_ADMIN')">
         <a th:href="@{/admin}">Admin</a>
     </span>
-
-<!--    &lt;!&ndash; Login / Logout &ndash;&gt;-->
-<!--    <span sec:authorize="isAnonymous()">-->
-<!--        <a th:href="@{/login}">Login</a>-->
-<!--    </span>-->
 
     <span sec:authorize="isAuthenticated()">
         <form th:action="@{/logout}" method="post" style="display:inline">

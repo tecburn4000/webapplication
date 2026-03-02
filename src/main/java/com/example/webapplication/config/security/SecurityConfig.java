@@ -43,7 +43,7 @@ public class SecurityConfig {
 						register.requestMatchers("/css/**","/js/**").permitAll(); // Allow access to static resources
 						register.requestMatchers("/login").permitAll(); // Allow access to login page
 						register.requestMatchers("/register").permitAll(); // Allow access to registration page
-						register.requestMatchers("/actuator/**").permitAll(); // oder nur /actuator/mappings
+//						register.requestMatchers("/actuator/**").permitAll(); // oder nur /actuator/mappings
 						register.requestMatchers("/h2-console/**").permitAll(); // Allow access to H2 Console - do not use in production!
 						register.anyRequest().authenticated();
 					})

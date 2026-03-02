@@ -3,7 +3,7 @@ package com.example.webapplication.service;
 import com.example.webapplication.dto.UserRegistrationDto;
 import com.example.webapplication.dto.UserUpdateDto;
 import com.example.webapplication.entities.User;
-import com.example.webapplication.service.exception.UserAlreadyExistException;
+import com.example.webapplication.exception.user.UserAlreadyExistException;
 
 import java.util.List;
 

@@ -2,13 +2,16 @@
 
 ---
 ## Funktionale Features
+- Sftp
+  - rsa key
+  - connection pooling
 - ~~-Unit Tests reparieren-~~
 - ~~-UserController-~~ 
   - ~~-Update durch User-~~
   - update password
 - AdminUserController
   - ~~-Update durch Admin-~~
-  - delete
+  - ~~-delete-~~
   - update password
 ```java
     // TODO: password change validation
@@ -59,7 +62,7 @@
 - CSS aufräumen 
   - Variablen definieren
 - CSRF aktivieren
-
+- Spring Boot auf 4.x.x anheben
 ---
 ## Fragen an Wladi
 ### Usermanagement
