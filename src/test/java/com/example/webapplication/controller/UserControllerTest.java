@@ -2,7 +2,7 @@ package com.example.webapplication.controller;
 
 import com.example.webapplication.WebApplication;
 import com.example.webapplication.controller.viewnames.UserViews;
-import com.example.webapplication.dto.UserUpdateDto;
+import com.example.webapplication.dto.user.UserUpdateDto;
 import com.example.webapplication.dto.mapper.UserMapper;
 import com.example.webapplication.entities.User;
 import com.example.webapplication.service.UserProfileFacade;
