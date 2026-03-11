@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<h2 th:text="'Verzeichnis: ' + ${currentPath}"></h2>
+
+<!-- Zurück Button -->
+<div th:if="${!isRoot}">
+    <a th:href="@{/ftp/browse(path=${parentPath})}" class="btn btn-secondary">Zurück</a>
+</div>
+
+<ul>
+    <li th:each="file : ${files}">
+        <!-- Ordner -->
+        <span th:if="${file.directory}">
+            <a th:href="@{/ftp/browse(path=${currentPath + '/' + file.name})}"
+               th:text="${file.name}"></a>
+        </span>
+
+        <!-- Datei -->
+        <span th:if="${!file.directory}">
+            <a th:href="@{/ftp/files/download(name=${currentPath + '/' + file.name})}"
+               th:text="${file.name}"></a>
+        </span>
+    </li>
+</ul>
+
+</body>
+</html>

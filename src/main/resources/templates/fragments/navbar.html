@@ -15,6 +15,9 @@
     <!-- Nur für berechtigte User -->
     <span sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')">
         <a th:href="@{/ftp/list}">FTP</a>
+        <a th:href="@{/ftp/files}">Files</a>
+        <a th:href="@{/ftp/browse}">Browse</a>
+        <a th:href="@{/ftp/ftp-browser}">FTP-Browser</a>
     </span>
 
     <!-- Nur für ADMIN -->
