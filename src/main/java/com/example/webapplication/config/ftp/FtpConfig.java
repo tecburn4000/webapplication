@@ -33,7 +33,7 @@ public class FtpConfig {
     }
 
     @Bean
-    public FtpRemoteFileTemplate ftpRemoteFileTemplate(SessionFactory<FTPFile> sessionFactory) {
-        return new FtpRemoteFileTemplate(sessionFactory);
+    public FtpRemoteFileTemplate ftpRemoteFileTemplate(DefaultFtpSessionFactory ftpSessionFactory) {
+        return new FtpRemoteFileTemplate(ftpSessionFactory);
     }
 }
