@@ -1,5 +1,6 @@
-package com.example.webapplication.dto;
+package com.example.webapplication.dto.user;
 
+import com.example.webapplication.validation.annotation.PasswordMatches;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -8,15 +9,11 @@ import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserUpdateDto {
-
-    @NotNull
-    @NotEmpty
-    private Long id;
-
+@PasswordMatches
+public class UserRegistrationDto implements DtoPasswordMatcher {
     @NotNull
     @NotEmpty
     private String firstname;
@@ -38,7 +35,7 @@ public class UserUpdateDto {
 
     @NotNull
     @NotEmpty
-    private String role;
+    private String password;
 
-    //TODO: id?
+    private String matchingPassword;
 }

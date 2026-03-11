@@ -1,4 +1,4 @@
-package com.example.webapplication.dto;
+package com.example.webapplication.dto.user;
 
 
 import com.example.webapplication.validation.annotation.PasswordMatches;
