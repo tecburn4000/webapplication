@@ -1,11 +1,12 @@
 package com.example.webapplication.validation;
 
-import com.example.webapplication.dto.DtoPasswordMatcher;
+import com.example.webapplication.dto.user.DtoPasswordMatcher;
 import com.example.webapplication.validation.annotation.PasswordMatches;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.NonNull;
 
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,12 +31,13 @@ public class PasswordMatchesValidator implements ConstraintValidator<PasswordMat
 
     @Override
     public boolean isValid(@NonNull DtoPasswordMatcher dtoPasswordMatcher, ConstraintValidatorContext context){
-        String pwd = dtoPasswordMatcher.getPassword();
-        String matchingPwd = dtoPasswordMatcher.getMatchingPassword();
+        String pwd = Objects.requireNonNull(dtoPasswordMatcher.getPassword(), "Password is required!");
+        String matchingPwd = Objects.requireNonNull(dtoPasswordMatcher.getMatchingPassword(), "Matching password is required!");
 
-        if (pwd == null || pwd.isBlank()) {
-            return true;
-        }
+        // TODO: mover password from user dto to password dto!
+//        if (pwd == null || pwd.isBlank()) {
+//            return true;
+//        }
 
         if (pwd.equals(matchingPwd)) {
             Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
