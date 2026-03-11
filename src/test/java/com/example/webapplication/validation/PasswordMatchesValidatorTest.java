@@ -1,6 +1,6 @@
 package com.example.webapplication.validation;
 
-import com.example.webapplication.dto.UserRegistrationDto;
+import com.example.webapplication.dto.user.UserRegistrationDto;
 import com.example.webapplication.validation.annotation.PasswordMatches;
 import jakarta.validation.ConstraintValidatorContext;
 import org.junit.jupiter.api.*;
@@ -16,8 +16,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-// TODO: fix failing tests
-@Disabled
+//@Disabled
 @ExtendWith(MockitoExtension.class)
 class PasswordMatchesValidatorTest {
 
