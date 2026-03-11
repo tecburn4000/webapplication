@@ -1,7 +1,7 @@
 package com.example.webapplication.service.impl;
 
-import com.example.webapplication.dto.UserRegistrationDto;
-import com.example.webapplication.dto.UserUpdateDto;
+import com.example.webapplication.dto.user.UserRegistrationDto;
+import com.example.webapplication.dto.user.UserUpdateDto;
 import com.example.webapplication.dto.mapper.UserMapper;
 import com.example.webapplication.entities.Authority;
 import com.example.webapplication.entities.User;

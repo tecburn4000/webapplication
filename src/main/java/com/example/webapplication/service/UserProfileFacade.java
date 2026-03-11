@@ -1,6 +1,6 @@
 package com.example.webapplication.service;
 
-import com.example.webapplication.dto.UserUpdateDto;
+import com.example.webapplication.dto.user.UserUpdateDto;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
