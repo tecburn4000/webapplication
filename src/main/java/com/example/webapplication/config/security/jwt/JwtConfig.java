@@ -1,7 +1,6 @@
 package com.example.webapplication.config.security.jwt;
 
 import com.example.webapplication.config.security.properties.JwtProperties;
-import com.example.webapplication.config.security.properties.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.jwt.JwtDecoder;

@@ -1,8 +1,8 @@
 package com.example.webapplication.controller;
 
 import com.example.webapplication.dto.user.UserRegistrationDto;
-import com.example.webapplication.service.UserService;
 import com.example.webapplication.exception.user.UserAlreadyExistException;
+import com.example.webapplication.service.UserService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

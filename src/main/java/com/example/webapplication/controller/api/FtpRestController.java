@@ -4,7 +4,6 @@ import com.example.webapplication.dto.ftp.FileRequestDto;
 import com.example.webapplication.exception.ftp.FtpException;
 import com.example.webapplication.security.permissions.PermissionFtp;
 import com.example.webapplication.service.ftp.FtpService;
-import com.nimbusds.jwt.JWT;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
