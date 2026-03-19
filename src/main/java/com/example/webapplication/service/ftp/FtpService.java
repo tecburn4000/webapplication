@@ -1,9 +1,8 @@
 package com.example.webapplication.service.ftp;
 
 import com.example.webapplication.config.ftp.properties.FtpProperties;
-import com.example.webapplication.dto.ftp.Breadcrumb;
-import com.example.webapplication.dto.ftp.FileInfo;
-import com.example.webapplication.dto.ftp.FtpEntry;
+import com.example.webapplication.dto.ftp.BreadcrumbDto;
+import com.example.webapplication.dto.ftp.FtpEntryDto;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,11 +28,11 @@ public class FtpService {
     private final FtpRemoteFileTemplate ftpRemoteFileTemplate;
     private final FtpProperties ftpProperties;
 
-    public List<FtpEntry> list(String path) {
+    public List<FtpEntryDto> list(String path) {
         return ftpRemoteFileTemplate.execute(session -> {
             FTPFile[] files = session.list(path);
             return Arrays.stream(files)
-                    .map(f -> FtpEntry.builder()
+                    .map(f -> FtpEntryDto.builder()
                             .name(f.getName())
                             .path(path + "/" + f.getName())
                             .directory(f.isDirectory())
@@ -42,17 +41,17 @@ public class FtpService {
                             .build()
                     )
                     .sorted(Comparator
-                    .comparing(FtpEntry::isDirectory).reversed()
-                    .thenComparing(FtpEntry::getName))
+                    .comparing(FtpEntryDto::isDirectory).reversed()
+                    .thenComparing(FtpEntryDto::getName))
                     .toList();
         });
     }
 
-    public List<Breadcrumb> breadcrumbs(String path) {
+    public List<BreadcrumbDto> breadcrumbs(String path) {
 
-        List<Breadcrumb> crumbs = new ArrayList<>();
+        List<BreadcrumbDto> crumbs = new ArrayList<>();
 
-        crumbs.add(new Breadcrumb("root", "/"));
+        crumbs.add(new BreadcrumbDto("root", "/"));
 
         if ("/".equals(path)) return crumbs;
 
@@ -64,7 +63,7 @@ public class FtpService {
             if (p.isBlank()) continue;
 
             current.append("/").append(p);
-            crumbs.add(new Breadcrumb(p, current.toString()));
+            crumbs.add(new BreadcrumbDto(p, current.toString()));
         }
 
         return crumbs;
@@ -97,4 +96,29 @@ public class FtpService {
         });
     }
 
+    public InputStream getLargeFile() {
+
+        try {
+            Path filePath = Path.of("/data/files/large-file.zip");
+
+            return Files.newInputStream(filePath);
+
+        } catch (IOException e) {
+            throw new RuntimeException("Could not read file", e);
+        }
+    }
+
+    public Path getFile(String relativePath) {
+        // Optional: Basis-Verzeichnis, damit keine beliebigen Pfade gelesen werden können
+        Path baseDir = Path.of(ftpProperties.getRemoteDirectory());
+
+        // Sicherstellen, dass kein Pfad-Traversal möglich ist
+        Path path = baseDir.resolve(relativePath).normalize();
+
+        if (!path.startsWith(baseDir)) {
+            throw new IllegalArgumentException("Ungültiger Pfad");
+        }
+
+        return path;
+    }
 }
