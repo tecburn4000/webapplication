@@ -1,6 +1,6 @@
 package com.example.webapplication.validation;
 
-import com.example.webapplication.dto.user.DtoPasswordMatcher;
+import com.example.webapplication.dto.user.PasswordMatcherDto;
 import com.example.webapplication.validation.annotation.PasswordMatches;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 /**
  * Validates that passwords are equal and follow a given pattern
  */
-public class PasswordMatchesValidator implements ConstraintValidator<PasswordMatches, DtoPasswordMatcher> {
+public class PasswordMatchesValidator implements ConstraintValidator<PasswordMatches, PasswordMatcherDto> {
 
     // ^: indicates the string's beginning
     // (?=.*[a-z]): makes sure that there is at least one small letter
@@ -30,9 +30,9 @@ public class PasswordMatchesValidator implements ConstraintValidator<PasswordMat
     }
 
     @Override
-    public boolean isValid(@NonNull DtoPasswordMatcher dtoPasswordMatcher, ConstraintValidatorContext context){
-        String pwd = Objects.requireNonNull(dtoPasswordMatcher.getPassword(), "Password is required!");
-        String matchingPwd = Objects.requireNonNull(dtoPasswordMatcher.getMatchingPassword(), "Matching password is required!");
+    public boolean isValid(@NonNull PasswordMatcherDto passwordMatcherDto, ConstraintValidatorContext context){
+        String pwd = Objects.requireNonNull(passwordMatcherDto.getPassword(), "Password is required!");
+        String matchingPwd = Objects.requireNonNull(passwordMatcherDto.getMatchingPassword(), "Matching password is required!");
 
         // TODO: mover password from user dto to password dto!
 //        if (pwd == null || pwd.isBlank()) {
@@ -41,7 +41,7 @@ public class PasswordMatchesValidator implements ConstraintValidator<PasswordMat
 
         if (pwd.equals(matchingPwd)) {
             Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
-            Matcher matcher = pattern.matcher(dtoPasswordMatcher.getPassword());
+            Matcher matcher = pattern.matcher(passwordMatcherDto.getPassword());
             return matcher.matches();
         }
         return false;

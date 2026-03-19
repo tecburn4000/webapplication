@@ -1,24 +1,18 @@
 package com.example.webapplication.service.ftp;
 
 import com.example.webapplication.config.ftp.properties.FtpProperties;
-import com.example.webapplication.dto.ftp.FtpEntry;
-import jakarta.servlet.ServletOutputStream;
-import jakarta.servlet.WriteListener;
-import jakarta.servlet.http.HttpServletResponse;
-import org.apache.ftpserver.impl.DefaultFtpSession;
+import com.example.webapplication.dto.ftp.FtpEntryDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.io.TempDir;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.integration.file.remote.RemoteFileTemplate;
 import org.springframework.integration.file.remote.SessionCallback;
 import org.springframework.integration.file.remote.session.Session;
 import org.springframework.integration.ftp.session.FtpRemoteFileTemplate;
 import org.springframework.mock.web.MockHttpServletResponse;
 
-import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -49,13 +43,13 @@ class FtpServiceTest {
     @Test
     void list_ReturnFile() {
 
-        FtpEntry entry = FtpEntry.builder()
+        FtpEntryDto entry = FtpEntryDto.builder()
                 .name(TEST_FILE)
                 .build();
 
         when(ftpRemoteFileTemplate.execute(any())).thenReturn(List.of(entry));
 
-        List<FtpEntry> files = ftpService.list("");
+        List<FtpEntryDto> files = ftpService.list("");
 
         assertEquals(1, files.size());
         assertEquals(TEST_FILE, files.getFirst().getName());

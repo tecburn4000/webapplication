@@ -1,7 +1,7 @@
 package com.example.webapplication.integration.ftp.service;
 
 import com.example.webapplication.config.ftp.properties.FtpProperties;
-import com.example.webapplication.dto.ftp.FtpEntry;
+import com.example.webapplication.dto.ftp.FtpEntryDto;
 import com.example.webapplication.integration.ftp.server.AbstractEmbeddedFtpTest;
 import com.example.webapplication.service.ftp.FtpService;
 import org.apache.ftpserver.ftplet.FtpException;
@@ -60,8 +60,8 @@ class FtpServiceIT extends AbstractEmbeddedFtpTest {
 
     @Test
     void shouldListFilesFromEmbeddedFtp() {
-        List<FtpEntry> files = ftpService.list(""); // use empty string while ftp dir is already set in setUp()
-        assertThat(files).anyMatch(ftpEntry -> ftpEntry.getName().equals(TEST_FILE));
+        List<FtpEntryDto> files = ftpService.list(""); // use empty string while ftp dir is already set in setUp()
+        assertThat(files).anyMatch(ftpEntryDto -> ftpEntryDto.getName().equals(TEST_FILE));
     }
 
     @Test
