@@ -13,7 +13,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @PasswordMatches
-public class UserRegistrationDto implements DtoPasswordMatcher {
+public class UserRegistrationDto implements PasswordMatcherDto {
     @NotNull
     @NotEmpty
     private String firstname;
