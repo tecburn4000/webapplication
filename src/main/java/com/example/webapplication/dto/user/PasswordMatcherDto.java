@@ -1,6 +1,6 @@
 package com.example.webapplication.dto.user;
 
-public interface DtoPasswordMatcher {
+public interface PasswordMatcherDto {
     String getPassword();
     String getMatchingPassword();
 }
