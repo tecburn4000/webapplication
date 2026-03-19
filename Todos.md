@@ -2,9 +2,9 @@
 
 ---
 ## Funktionale Features
-- Sftp
-  - rsa key
-  - connection pooling
+- FTP
+  - lokaler download oder Übertragen per stream?
+  - connection pooling?
 - ~~-Unit Tests reparieren-~~
 - ~~-UserController-~~ 
   - ~~-Update durch User-~~
@@ -13,6 +13,8 @@
   - ~~-Update durch Admin-~~
   - ~~-delete-~~
   - update password
+    - move password from user registration to password dto
+    - merge user update and user registration
 ```java
     // TODO: password change validation
     private static void validatePasswords(UpdatePasswordDto updatePasswordDto) {
@@ -63,6 +65,7 @@
   - Variablen definieren
 - CSRF aktivieren
 - Spring Boot auf 4.x.x anheben
+- JWT ==> Spring auf HTTPS stellen
 ---
 ## Fragen an Wladi
 ### Usermanagement
