@@ -7,7 +7,7 @@ import lombok.Data;
 @Builder
 @Data
 @AllArgsConstructor
-public class Breadcrumb {
+public class BreadcrumbDto {
     private String name;
     private String path;
 }

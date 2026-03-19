@@ -7,7 +7,7 @@ import java.time.Instant;
 
 @Data
 @Builder
-public class FtpEntry {
+public class FtpEntryDto {
     String name;
     String path;
     boolean directory;
