@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
-class ContentControllerTest extends BaseControllerIntegrationTest {
+class LoginControllerTest extends BaseControllerIntegrationTest {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -40,7 +40,7 @@ class ContentControllerTest extends BaseControllerIntegrationTest {
         @WithUserDetails
         void initLoginFormAuth() throws Exception {
 
-            mockMvc.perform(get("/login"))//.with(httpBasic("user", "password")))
+            mockMvc.perform(get("/login"))
                     .andExpect(status().isOk())
                     .andExpect(view().name("login"));
         }
