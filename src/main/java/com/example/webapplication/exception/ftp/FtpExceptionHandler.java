@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.MessagingException;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,6 +44,11 @@ public class FtpExceptionHandler {
     @ExceptionHandler(MessagingException.class)
     public ResponseEntity<Map<String, Object>> handleMessagingException(MessagingException e) {
         return getMapResponseEntity(e, "Connection error", e.getCause().getMessage());
+    }
+
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    public ResponseEntity<Map<String, Object>> handleAuthorizationDeniedException(AuthorizationDeniedException e) {
+        return getMapResponseEntity(e, "Authorization error", e.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
