@@ -44,6 +44,9 @@ public class FtpController {
         response.setBufferSize(8192);
         response.setContentType("application/octet-stream");
         response.setHeader("Content-Disposition","attachment; filename=\"" + filePath + "\"");
+        if (!ftpService.fileExists(filePath)) {
+            return "redirect:/ftp/ftp-browser";
+        }
         ftpService.downloadToBrowser(filePath, response);
         Path targetDirectory = Path.of(filePath);
         return "redirect:/ftp/ftp-browser?path=" + targetDirectory;
