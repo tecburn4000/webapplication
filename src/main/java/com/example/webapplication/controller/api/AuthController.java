@@ -1,8 +1,8 @@
 package com.example.webapplication.controller.api;
 
-import com.example.webapplication.config.security.jwt.JwtService;
 import com.example.webapplication.dto.jwt.JwtLoginRequest;
 import com.example.webapplication.dto.jwt.JwtResponse;
+import com.example.webapplication.security.jwt.JwtService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
