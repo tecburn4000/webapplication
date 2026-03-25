@@ -3,12 +3,14 @@ package com.example.webapplication.service.ftp;
 import com.example.webapplication.config.ftp.properties.FtpProperties;
 import com.example.webapplication.dto.ftp.BreadcrumbDto;
 import com.example.webapplication.dto.ftp.FtpEntryDto;
+import com.example.webapplication.dto.ftp.ListFileRequestDto;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.net.ftp.FTPFile;
 import org.springframework.integration.ftp.session.FtpRemoteFileTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 @Slf4j
 @Service
@@ -69,10 +73,20 @@ public class FtpService {
         return crumbs;
     }
 
-    private void streamFile(String remotePath, OutputStream outputStream) {
+    public void streamFile(String remoteFilePath, OutputStream outputStream) {
         ftpRemoteFileTemplate.execute(session -> {
-            session.read(remotePath, outputStream);
+            session.read(remoteFilePath, outputStream);
             return null;
+        });
+    }
+
+    public boolean fileExists(String remoteFile) {
+        return ftpRemoteFileTemplate.execute(session -> {
+            try {
+                return session.exists(remoteFile);
+            } catch (Exception _) {
+                return false;
+            }
         });
     }
 
@@ -108,17 +122,21 @@ public class FtpService {
         }
     }
 
-    public Path getFile(String relativePath) {
-        // Optional: Basis-Verzeichnis, damit keine beliebigen Pfade gelesen werden können
-        Path baseDir = Path.of(ftpProperties.getRemoteDirectory());
+    public StreamingResponseBody createZipStream(ListFileRequestDto listFileRequestDto) {
+        // create zip
+        StreamingResponseBody stream = outputStream -> {
+            try (ZipOutputStream zipOut = new ZipOutputStream(outputStream)) {
 
-        // Sicherstellen, dass kein Pfad-Traversal möglich ist
-        Path path = baseDir.resolve(relativePath).normalize();
+                for (String file : listFileRequestDto.getFilePaths()) {
 
-        if (!path.startsWith(baseDir)) {
-            throw new IllegalArgumentException("Ungültiger Pfad");
-        }
+                    zipOut.putNextEntry(new ZipEntry(file));
 
-        return path;
+                    streamFile(file, zipOut);
+
+                    zipOut.closeEntry();
+                }
+            }
+        };
+        return stream;
     }
 }
