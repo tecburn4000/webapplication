@@ -6,12 +6,12 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -21,9 +21,11 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
 	private final SecurityProperties securityProperties;
+	private final JwtAuthenticationConverter jwtAuthenticationConverter;
 
-	public SecurityConfig(SecurityProperties securityProperties) {
+	public SecurityConfig(SecurityProperties securityProperties, JwtAuthenticationConverter jwtAuthenticationConverter) {
 		this.securityProperties = securityProperties;
+		this.jwtAuthenticationConverter = jwtAuthenticationConverter;
 	}
 
 	// API Security (OAuth2/JWT)
@@ -40,8 +42,13 @@ public class SecurityConfig {
 				.sessionManagement(session -> session
 						.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				)
+//				.oauth2ResourceServer(oauth -> oauth
+//						.jwt(Customizer.withDefaults())
+//				)
 				.oauth2ResourceServer(oauth -> oauth
-						.jwt(Customizer.withDefaults())
+						.jwt(jwt -> jwt
+								.jwtAuthenticationConverter(jwtAuthenticationConverter)
+						)
 				)
 				.exceptionHandling(ex -> ex
 						.authenticationEntryPoint((request, response, authException) -> {
