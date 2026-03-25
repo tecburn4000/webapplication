@@ -13,10 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import java.util.Map;
@@ -30,21 +27,6 @@ public class FtpRestController {
 
     private final FtpService ftpService;
     private final MethodValidationPostProcessor methodValidationPostProcessor;
-
-//    @PermissionRestApi
-//    @PostMapping(value = "/stream", consumes = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<StreamingResponseBody> stream(@RequestBody FileRequestDto fileRequestDto) {
-//
-//        if (!ftpService.fileExists(fileRequestDto.getFilePath())) {
-//            return ResponseEntity.notFound().build();
-//        }
-//        StreamingResponseBody stream = outputStream ->
-//                ftpService.streamFile(fileRequestDto.getFilePath(), outputStream);
-//
-//        return ResponseEntity.ok()
-//                .header("Content-Disposition", "attachment; filename=" + fileRequestDto.getFilePath())
-//                .body(stream);
-//    }
 
     @PermissionRestApi
     @PostMapping(value = "/stream-zip", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -76,16 +58,16 @@ public class FtpRestController {
         return true;
     }
 
-//    @PermissionRestApi
-//    @GetMapping("/hello")
-//    public String hello(@AuthenticationPrincipal Jwt jwt) {
-//
-//        if (log.isDebugEnabled()) {
-//            logJwt(jwt);
-//        }
-//
-//        return "Hello " + jwt.getSubject();
-//    }
+    @PermissionRestApi
+    @GetMapping("/test")
+    public String test(@AuthenticationPrincipal Jwt jwt) {
+
+        if (log.isDebugEnabled()) {
+            logJwt(jwt);
+        }
+
+        return "Test " + jwt.getSubject();
+    }
 
     private static void logJwt(Jwt jwt) {
         StringBuilder builder = new StringBuilder();
