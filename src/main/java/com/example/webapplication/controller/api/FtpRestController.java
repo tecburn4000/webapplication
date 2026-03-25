@@ -1,23 +1,27 @@
 package com.example.webapplication.controller.api;
 
 import com.example.webapplication.dto.ftp.FileRequestDto;
+import com.example.webapplication.dto.ftp.ListFileRequestDto;
 import com.example.webapplication.exception.ftp.FtpException;
 import com.example.webapplication.security.permissions.PermissionFtp;
+import com.example.webapplication.security.permissions.PermissionRestApi;
 import com.example.webapplication.service.ftp.FtpService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.HttpHeaders;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.util.Map;
 
+@Slf4j
 @FtpException
 @RestController
 @RequiredArgsConstructor
@@ -25,44 +29,69 @@ import java.nio.file.Path;
 public class FtpRestController {
 
     private final FtpService ftpService;
+    private final MethodValidationPostProcessor methodValidationPostProcessor;
 
-    @PermissionFtp
-    @GetMapping("/stream")
-    public ResponseEntity<InputStreamResource> streamFile() {
+//    @PermissionRestApi
+//    @PostMapping(value = "/stream", consumes = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<StreamingResponseBody> stream(@RequestBody FileRequestDto fileRequestDto) {
+//
+//        if (!ftpService.fileExists(fileRequestDto.getFilePath())) {
+//            return ResponseEntity.notFound().build();
+//        }
+//        StreamingResponseBody stream = outputStream ->
+//                ftpService.streamFile(fileRequestDto.getFilePath(), outputStream);
+//
+//        return ResponseEntity.ok()
+//                .header("Content-Disposition", "attachment; filename=" + fileRequestDto.getFilePath())
+//                .body(stream);
+//    }
 
-        InputStream stream = ftpService.getLargeFile();
+    @PermissionRestApi
+    @PostMapping(value = "/stream-zip", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<StreamingResponseBody> streamZip(
+            @AuthenticationPrincipal Jwt jwt,
+            @RequestBody ListFileRequestDto listFileRequestDto) {
 
-        InputStreamResource resource = new InputStreamResource(stream);
+        if (log.isDebugEnabled()) {
+            logJwt(jwt);
+        }
 
-        return ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .header(HttpHeaders.CONTENT_DISPOSITION,
-                        "attachment; filename=\"large-file.zip\"")
-                .body(resource);
-    }
-
-    @PermissionFtp
-    @PostMapping("/stream")
-    public ResponseEntity<InputStreamResource> streamFile(@RequestBody FileRequestDto request) throws IOException {
-
-        Path path = ftpService.getFile(request.getFilePath());
-
-        if (!Files.exists(path)) {
+        if (!checkIfFilesExists(listFileRequestDto)) {
             return ResponseEntity.notFound().build();
         }
 
-        InputStreamResource resource = new InputStreamResource(Files.newInputStream(path));
+        StreamingResponseBody stream = ftpService.createZipStream(listFileRequestDto);
 
         return ResponseEntity.ok()
-                .contentLength(Files.size(path))
-                .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .header(HttpHeaders.CONTENT_DISPOSITION,
-                        "attachment; filename=\"" + path.getFileName() + "\"")
-                .body(resource);
+                .header("Content-Disposition", "attachment; filename=files.zip")
+                .body(stream);
     }
 
-    @GetMapping("/hello")
-    public String hello(@AuthenticationPrincipal Jwt jwt) {
-        return "Hello " + jwt.getSubject();
+    private boolean checkIfFilesExists(ListFileRequestDto listFileRequestDto) {
+        for (String file : listFileRequestDto.getFilePaths()) {
+            if (!ftpService.fileExists(file)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+//    @PermissionRestApi
+//    @GetMapping("/hello")
+//    public String hello(@AuthenticationPrincipal Jwt jwt) {
+//
+//        if (log.isDebugEnabled()) {
+//            logJwt(jwt);
+//        }
+//
+//        return "Hello " + jwt.getSubject();
+//    }
+
+    private static void logJwt(Jwt jwt) {
+        StringBuilder builder = new StringBuilder();
+        for (Map.Entry<String, Object> entry : jwt.getClaims().entrySet()) {
+            builder.append("\t").append(entry.getKey()).append(" : ").append(entry.getValue()).append("\n");
+        }
+        log.debug("\nJWT Claims:\n{}", builder);
     }
 }
