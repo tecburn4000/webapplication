@@ -2,6 +2,7 @@ package com.example.webapplication.controller;
 
 import com.example.webapplication.exception.ftp.FtpException;
 import com.example.webapplication.security.permissions.PermissionFtp;
+import com.example.webapplication.service.ftp.FtpBreadcrumbService;
 import com.example.webapplication.service.ftp.FtpService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ import java.nio.file.Path;
 public class FtpController {
 
     private final FtpService ftpService;
+    private final FtpBreadcrumbService ftpBreadcrumbService;
 
 //    @PermissionFtp
 //    @GetMapping("/download")
@@ -33,7 +35,7 @@ public class FtpController {
     @GetMapping("/ftp-browser")
     public String browse(@RequestParam(defaultValue = "/") String path, Model model) {
         model.addAttribute("files", ftpService.list(path));
-        model.addAttribute("breadcrumbs", ftpService.breadcrumbs(path));
+        model.addAttribute("breadcrumbs", ftpBreadcrumbService.breadcrumbs(path));
         model.addAttribute("path", path);
         return "ftp/ftp-browser";
     }
