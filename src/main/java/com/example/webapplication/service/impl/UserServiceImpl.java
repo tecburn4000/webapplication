@@ -115,13 +115,16 @@ public class UserServiceImpl implements UserService {
                 () -> new UserNotFoundException("User with given ID does not exist!"));
     }
 
-
-    // TODO: kann ich die Methoden zusammenfassen?
     @Override
     public User findByUserName(String userName) {
 
         return userRepository.findByUsername(userName).orElseThrow(
                 () -> new UserNotFoundException("User with given Name does not exist!"));
+    }
+
+    @Override
+    public long count() {
+        return userRepository.count();
     }
 
     private boolean emailExists(String email) {

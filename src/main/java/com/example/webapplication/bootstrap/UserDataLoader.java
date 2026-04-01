@@ -2,8 +2,8 @@ package com.example.webapplication.bootstrap;
 
 import com.example.webapplication.entities.Authority;
 import com.example.webapplication.entities.User;
-import com.example.webapplication.repositories.security.AuthorityRepository;
-import com.example.webapplication.repositories.security.UserRepository;
+import com.example.webapplication.service.AuthorityService;
+import com.example.webapplication.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
@@ -18,8 +18,8 @@ import java.util.Set;
 @Component
 public class UserDataLoader implements CommandLineRunner {
 
-    private final UserRepository userRepository;
-    private final AuthorityRepository authorityRepository;
+    private final UserService userService;
+    private final AuthorityService authorityService;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -28,14 +28,14 @@ public class UserDataLoader implements CommandLineRunner {
     }
 
     private void loadUserData() {
-        if (authorityRepository.count() == 0) {
-            Authority adminAuthority = authorityRepository.save(Authority.builder().role("ROLE_ADMIN").build());
-            Authority userAuthority = authorityRepository.save(Authority.builder().role("ROLE_USER").build());
-            Authority noneAuthority = authorityRepository.save(Authority.builder().role("ROLE_NONE").build());
+        if (authorityService.count() == 0) {
+            Authority adminAuthority = authorityService.save(Authority.builder().role("ROLE_ADMIN").build());
+            Authority userAuthority = authorityService.save(Authority.builder().role("ROLE_USER").build());
+            Authority noneAuthority = authorityService.save(Authority.builder().role("ROLE_NONE").build());
 
             Set<Authority> authorities = new HashSet<>();
             authorities.add(adminAuthority);
-            userRepository.save(User.builder()
+            userService.save(User.builder()
                     .firstname("Admin")
                     .lastname("Admin")
                     .username("admin")
@@ -47,7 +47,7 @@ public class UserDataLoader implements CommandLineRunner {
 
             authorities.clear();
             authorities.add(userAuthority);
-            userRepository.save(User.builder()
+            userService.save(User.builder()
                     .firstname("User")
                     .lastname("User")
                     .username("user")
@@ -59,7 +59,7 @@ public class UserDataLoader implements CommandLineRunner {
 
             authorities.clear();
             authorities.add(noneAuthority);
-            userRepository.save(User.builder()
+            userService.save(User.builder()
                     .firstname("None")
                     .lastname("None")
                     .username("none")
@@ -69,7 +69,8 @@ public class UserDataLoader implements CommandLineRunner {
                     .build()
             );
 
-            log.debug("Users loaded: {}", userRepository.count());
+            log.debug("Users loaded: {}", userService.count());
         }
     }
 }
+

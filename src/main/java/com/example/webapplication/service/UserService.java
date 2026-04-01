@@ -20,4 +20,5 @@ public interface UserService {
     User findById(Long userId);
     void deleteById(Long userId);
     User save(User user) throws UserAlreadyExistException;
+    long count();
 }
