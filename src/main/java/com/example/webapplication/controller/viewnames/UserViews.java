@@ -9,3 +9,4 @@ public final class UserViews {
     public static final String USERS_PROFILE = "users/profile";
 
 }
+

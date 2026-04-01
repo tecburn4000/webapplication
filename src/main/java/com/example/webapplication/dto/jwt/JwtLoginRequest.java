@@ -7,3 +7,4 @@ public class JwtLoginRequest {
     private String username;
     private String password;
 }
+

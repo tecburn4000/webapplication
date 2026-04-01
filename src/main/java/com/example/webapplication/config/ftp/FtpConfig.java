@@ -1,6 +1,6 @@
 package com.example.webapplication.config.ftp;
 
-import com.example.webapplication.config.ftp.properties.FtpProperties;
+import com.example.webapplication.infrastructure.properties.FtpProperties;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;

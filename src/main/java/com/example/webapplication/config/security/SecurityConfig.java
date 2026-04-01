@@ -1,6 +1,6 @@
 package com.example.webapplication.config.security;
 
-import com.example.webapplication.config.security.properties.SecurityProperties;
+import com.example.webapplication.infrastructure.properties.SecurityProperties;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -33,7 +33,7 @@ public class SecurityConfig {
 	@Order(1)
 	public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http) throws Exception {
 		http
-				.securityMatcher("/api/**")  // Nur für API-Requests
+				.securityMatcher("/api/**")  // Nur fÃ¼r API-Requests
 				.csrf(AbstractHttpConfigurer::disable)
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers("/api/auth/**").permitAll()
@@ -97,3 +97,4 @@ public class SecurityConfig {
 		return http.build();
 	}
 }
+

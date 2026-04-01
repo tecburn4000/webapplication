@@ -14,3 +14,4 @@ public class FtpEntryDto {
     long size;
     Instant modified;
 }
+

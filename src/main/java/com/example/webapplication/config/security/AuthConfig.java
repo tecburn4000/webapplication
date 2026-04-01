@@ -13,3 +13,4 @@ public class AuthConfig {
         return config.getAuthenticationManager();
     }
 }
+

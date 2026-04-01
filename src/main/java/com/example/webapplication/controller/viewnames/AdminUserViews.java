@@ -9,3 +9,4 @@ public final class AdminUserViews {
     public static final String ADMIN = "/admin";
 
 }
+

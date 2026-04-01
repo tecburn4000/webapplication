@@ -40,3 +40,4 @@ public class SecurityConfigAllowsAllConfig {
         return handler;
     }
 }
+

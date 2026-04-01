@@ -1,6 +1,6 @@
 package com.example.webapplication.service.ftp;
 
-import com.example.webapplication.config.ftp.properties.FtpProperties;
+import com.example.webapplication.infrastructure.properties.FtpProperties;
 import com.example.webapplication.dto.ftp.FtpEntryDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -115,3 +115,4 @@ class FtpServiceTest {
         verify(session).read(eq(TEST_TEXT), any(OutputStream.class));
     }
 }
+

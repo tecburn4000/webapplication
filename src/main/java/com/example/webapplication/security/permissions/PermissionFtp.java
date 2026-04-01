@@ -9,3 +9,4 @@ import java.lang.annotation.RetentionPolicy;
 @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER') or @securityProperties.permitsAll")
 public @interface PermissionFtp {
 }
+

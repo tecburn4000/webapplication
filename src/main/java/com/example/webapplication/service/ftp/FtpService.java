@@ -1,6 +1,6 @@
 package com.example.webapplication.service.ftp;
 
-import com.example.webapplication.config.ftp.properties.FtpProperties;
+import com.example.webapplication.infrastructure.properties.FtpProperties;
 import com.example.webapplication.dto.ftp.FtpEntryDto;
 import com.example.webapplication.dto.ftp.ListFileRequestDto;
 import jakarta.servlet.http.HttpServletResponse;
@@ -175,3 +175,4 @@ public class FtpService {
         };
     }
 }
+

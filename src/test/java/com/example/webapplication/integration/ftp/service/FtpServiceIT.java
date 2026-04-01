@@ -1,6 +1,6 @@
 package com.example.webapplication.integration.ftp.service;
 
-import com.example.webapplication.config.ftp.properties.FtpProperties;
+import com.example.webapplication.infrastructure.properties.FtpProperties;
 import com.example.webapplication.dto.ftp.FtpEntryDto;
 import com.example.webapplication.integration.ftp.server.AbstractEmbeddedFtpTest;
 import com.example.webapplication.service.ftp.FtpService;

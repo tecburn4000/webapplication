@@ -64,3 +64,4 @@ public class JwtResponse {
         this.expiresAt = Instant.now().plusSeconds(expiresIn);
     }
 }
+

@@ -43,3 +43,4 @@ public class User {
     @Builder.Default
     private boolean enabled = true;
 }
+

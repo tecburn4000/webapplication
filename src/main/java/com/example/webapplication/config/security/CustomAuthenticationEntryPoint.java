@@ -18,7 +18,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         
         String requestUri = request.getRequestURI();
         
-        // Für API-Requests: JSON-Response
+        // FÃ¼r API-Requests: JSON-Response
         if (requestUri.startsWith("/api/")) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.setContentType("application/json");
@@ -26,8 +26,9 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
                 "{\"error\":\"Unauthorized\",\"message\":\"Authentication required\"}"
             );
         } else {
-            // Für Web-Requests: Redirect zu Login
+            // FÃ¼r Web-Requests: Redirect zu Login
             response.sendRedirect("/login");
         }
     }
 }
+

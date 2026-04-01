@@ -12,3 +12,4 @@ public class ApplicationConfig {
         return new HiddenHttpMethodFilter();
     }
 }
+

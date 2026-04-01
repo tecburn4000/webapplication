@@ -1,6 +1,6 @@
 package com.example.webapplication.integration.ftp.server;
 
-import com.example.webapplication.config.ftp.properties.FtpProperties;
+import com.example.webapplication.infrastructure.properties.FtpProperties;
 import org.apache.ftpserver.FtpServer;
 import org.apache.ftpserver.FtpServerFactory;
 import org.apache.ftpserver.ftplet.FtpException;

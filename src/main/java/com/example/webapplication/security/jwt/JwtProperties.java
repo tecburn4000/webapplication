@@ -56,3 +56,4 @@ public class JwtProperties {
      */
     private long expiration = 600000;
 }
+

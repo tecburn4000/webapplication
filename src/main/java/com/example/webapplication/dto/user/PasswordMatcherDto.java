@@ -4,3 +4,4 @@ public interface PasswordMatcherDto {
     String getPassword();
     String getMatchingPassword();
 }
+
