@@ -58,6 +58,9 @@ dependencies {
 	// show active endpoints
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
+	// Architectural unit tests
+	testImplementation 'com.tngtech.archunit:archunit-junit5:1.4.1'
+
 	// Postgres
 	//implementation 'org.postgresql:postgresql'
 
