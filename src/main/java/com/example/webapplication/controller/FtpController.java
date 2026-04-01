@@ -23,14 +23,6 @@ public class FtpController {
     private final FtpService ftpService;
     private final FtpBreadcrumbService ftpBreadcrumbService;
 
-//    @PermissionFtp
-//    @GetMapping("/download")
-//    public String download(@RequestParam String filePath) throws IOException {
-//        ftpService.downloadToLocalFile(filePath);
-//        Path targetDirectory = Path.of(filePath);
-//        return "redirect:/ftp/ftp-browserpath=" + targetDirectory;
-//    }
-
     @PermissionFtp
     @GetMapping("/ftp-browser")
     public String browse(@RequestParam(defaultValue = "/") String path, Model model) {
