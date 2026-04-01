@@ -1,20 +1,57 @@
 # Todo's
 
 ---
+
+## GitHub Copilot
+- Rollen in ein enum
+- convert Authority to SimpleGrantedAuthority?
+- Name der Projekts ändern
+- 
+
 ## Funktionale Features
 - FTP
   - lokaler download oder Übertragen per stream?
   - connection pooling?
+  - Dateifilter
+    - nur *.log Dateien anzeigen (Filefilter)
+    - keine *debug* Dateien anzeigen
+  - Rest 
+    - Dateiübertragung
+    - JWT mit OTP
+    - Liste von Dateien übertragen
+      - move zip stream method to ftpservice
+      - test method
+      - extract zip in postman
+      - error file ins zip wenn datei nicht gefunden wird?
+      - zipOut.putNextEntry(new ZipEntry(file + "_ERROR.txt"));
+      - zipOut.write(("File not found: " + file).getBytes());
+      - zipOut.closeEntry();
+``` json
+Beispiel von Falko
+{
+    "credentials": {
+        "uid": "peter@mustermann.de",
+        "pw": "geheim"
+    },
+    "path_list": [
+        "APP01-A/server5_1_13_ch/log/accept-20260203_12-1.log.gz",
+        "APP03-B/server5_1_13_ch/log/accept-20260203_12-1.log.gz",
+        "APP03-B/server*_tchibo/log/accept-20260203_13-1.log.gz"
+    ]
+}
+
+```
+
 - ~~-Unit Tests reparieren-~~
 - ~~-UserController-~~ 
   - ~~-Update durch User-~~
   - update password
 - AdminUserController
-  - ~~-Update durch Admin-~~
-  - ~~-delete-~~
   - update password
     - move password from user registration to password dto
     - merge user update and user registration
+  - ~~-Update durch Admin-~~
+  - ~~-delete-~~
 ```java
     // TODO: password change validation
     private static void validatePasswords(UpdatePasswordDto updatePasswordDto) {
