@@ -1,15 +1,15 @@
 package com.example.webapplication.service.impl;
 
-import com.example.webapplication.dto.UserRegistrationDto;
-import com.example.webapplication.dto.UserUpdateDto;
 import com.example.webapplication.dto.mapper.UserMapper;
+import com.example.webapplication.dto.user.UserRegistrationDto;
+import com.example.webapplication.dto.user.UserUpdateDto;
 import com.example.webapplication.entities.Authority;
 import com.example.webapplication.entities.User;
+import com.example.webapplication.exception.user.UserAlreadyExistException;
+import com.example.webapplication.exception.user.UserNotFoundException;
 import com.example.webapplication.repositories.security.AuthorityRepository;
 import com.example.webapplication.repositories.security.UserRepository;
 import com.example.webapplication.service.UserService;
-import com.example.webapplication.service.exception.UserAlreadyExistException;
-import com.example.webapplication.service.exception.UserNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -115,13 +115,16 @@ public class UserServiceImpl implements UserService {
                 () -> new UserNotFoundException("User with given ID does not exist!"));
     }
 
-
-    // TODO: kann ich die Methoden zusammenfassen?
     @Override
     public User findByUserName(String userName) {
 
         return userRepository.findByUsername(userName).orElseThrow(
                 () -> new UserNotFoundException("User with given Name does not exist!"));
+    }
+
+    @Override
+    public long count() {
+        return userRepository.count();
     }
 
     private boolean emailExists(String email) {

@@ -1,4 +1,4 @@
-package com.example.webapplication.service.exception;
+package com.example.webapplication.exception.user;
 
 public class UserAlreadyExistException extends RuntimeException {
 
@@ -6,3 +6,4 @@ public class UserAlreadyExistException extends RuntimeException {
         super(message);
     }
 }
+

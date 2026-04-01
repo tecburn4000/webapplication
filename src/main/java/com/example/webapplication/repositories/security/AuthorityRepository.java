@@ -11,3 +11,4 @@ public interface AuthorityRepository extends JpaRepository<Authority,Long> {
     Optional<Authority> findByRole(String role);
 
 }
+

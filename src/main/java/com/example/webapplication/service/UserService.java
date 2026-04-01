@@ -1,9 +1,9 @@
 package com.example.webapplication.service;
 
-import com.example.webapplication.dto.UserRegistrationDto;
-import com.example.webapplication.dto.UserUpdateDto;
+import com.example.webapplication.dto.user.UserRegistrationDto;
+import com.example.webapplication.dto.user.UserUpdateDto;
 import com.example.webapplication.entities.User;
-import com.example.webapplication.service.exception.UserAlreadyExistException;
+import com.example.webapplication.exception.user.UserAlreadyExistException;
 
 import java.util.List;
 
@@ -20,4 +20,5 @@ public interface UserService {
     User findById(Long userId);
     void deleteById(Long userId);
     User save(User user) throws UserAlreadyExistException;
+    long count();
 }

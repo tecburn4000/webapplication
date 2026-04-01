@@ -1,9 +1,8 @@
 package com.example.webapplication.controller;
 
 import com.example.webapplication.controller.viewnames.AdminUserViews;
-import com.example.webapplication.dto.UpdatePasswordDto;
-import com.example.webapplication.dto.UserUpdateDto;
 import com.example.webapplication.dto.mapper.UserMapper;
+import com.example.webapplication.dto.user.UserUpdateDto;
 import com.example.webapplication.security.permissions.PermissionAdmin;
 import com.example.webapplication.service.UserProfileFacade;
 import com.example.webapplication.service.UserService;
@@ -76,3 +75,4 @@ public class AdminUserController {
         return AdminUserViews.REDIRECT_ADMIN;
     }
 }
+

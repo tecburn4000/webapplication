@@ -2,8 +2,8 @@ package com.example.webapplication.controller;
 
 import com.example.webapplication.WebApplication;
 import com.example.webapplication.controller.viewnames.AdminUserViews;
-import com.example.webapplication.dto.UserUpdateDto;
 import com.example.webapplication.dto.mapper.UserMapper;
+import com.example.webapplication.dto.user.UserUpdateDto;
 import com.example.webapplication.entities.User;
 import com.example.webapplication.service.UserProfileFacade;
 import com.example.webapplication.service.UserService;
@@ -15,7 +15,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.springframework.ui.Model;
 
 import java.util.List;

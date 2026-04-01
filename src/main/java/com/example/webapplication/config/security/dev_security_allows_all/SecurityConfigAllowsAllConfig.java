@@ -1,6 +1,5 @@
 package com.example.webapplication.config.security.dev_security_allows_all;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.access.PermissionEvaluator;
@@ -41,3 +40,4 @@ public class SecurityConfigAllowsAllConfig {
         return handler;
     }
 }
+

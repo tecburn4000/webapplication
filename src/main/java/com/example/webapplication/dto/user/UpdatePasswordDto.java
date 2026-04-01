@@ -1,4 +1,4 @@
-package com.example.webapplication.dto;
+package com.example.webapplication.dto.user;
 
 
 import com.example.webapplication.validation.annotation.PasswordMatches;
@@ -13,7 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @PasswordMatches
-public class UpdatePasswordDto implements DtoPasswordMatcher {
+public class UpdatePasswordDto implements PasswordMatcherDto {
 
     @Size(min = 8, message = "Password min. length is 8")
     private String oldPassword;
@@ -31,3 +31,4 @@ public class UpdatePasswordDto implements DtoPasswordMatcher {
         return oldPassword;
     }
 }
+

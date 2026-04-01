@@ -9,3 +9,4 @@ import java.lang.annotation.RetentionPolicy;
 @PreAuthorize("isAuthenticated() or @securityProperties.permitsAll")
 public @interface PermissionAllUsers {
 }
+
