@@ -1,4 +1,4 @@
-package com.example.webapplication.config.security.properties;
+package com.example.webapplication.infrastructure.properties;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,3 +13,4 @@ public class SecurityProperties {
 
     private boolean permitsAll = false;
 }
+

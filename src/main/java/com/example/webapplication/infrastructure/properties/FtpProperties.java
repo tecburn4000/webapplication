@@ -1,4 +1,4 @@
-package com.example.webapplication.config.ftp.properties;
+package com.example.webapplication.infrastructure.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -15,3 +15,4 @@ public class FtpProperties {
     private Integer timeout;
     private boolean passiveMode;
 }
+
