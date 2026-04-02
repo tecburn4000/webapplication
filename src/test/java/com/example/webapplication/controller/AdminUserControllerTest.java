@@ -1,6 +1,6 @@
 package com.example.webapplication.controller;
 
-import com.example.webapplication.WebApplication;
+import com.example.webapplication.LogfileDownloadWebservice;
 import com.example.webapplication.controller.viewnames.AdminUserViews;
 import com.example.webapplication.dto.mapper.UserMapper;
 import com.example.webapplication.dto.user.UserUpdateDto;
@@ -26,7 +26,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest(classes = WebApplication.class)
+@SpringBootTest(classes = LogfileDownloadWebservice.class)
 class AdminUserControllerTest extends BaseControllerIntegrationTest {
 
     @Autowired

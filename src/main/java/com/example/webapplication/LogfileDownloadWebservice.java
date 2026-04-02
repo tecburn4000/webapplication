@@ -7,10 +7,10 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 @ConfigurationPropertiesScan
 @SpringBootApplication
 //		(exclude = {SecurityAutoConfiguration.class, ManagementWebSecurityAutoConfiguration.class})
-public class WebApplication {
+public class LogfileDownloadWebservice {
 
 	public static void main(String[] args) {
-		SpringApplication.run(WebApplication.class, args);
+		SpringApplication.run(LogfileDownloadWebservice.class, args);
 	}
 
 }
